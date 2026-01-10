@@ -1,0 +1,55 @@
+/* Глобальные стили и сброс */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #3498db;
+  --accent-color: #e74c3c;
+  --water-color: #3498db;
+  --text-color: #2c3e50;
+  --background-color: #ecf0f1;
+  --nav-bg: rgba(44, 62, 80, 0.95);
+  --gradient-sunset: linear-gradient(180deg, #ff7e5f, #f8a363);
+  --root-font-size: 16px; /* По умолчанию, но можно изменить в медиазапросах */
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--gradient-sunset);
+  color: var(--text-color);
+  overflow-x: hidden;
+
+  /* Обеспечение прижжатия */
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  width: 100%;
+  
+}
+
+/* Общий контейнер для центрирования и отступов */
+/* .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 100%;
+} */
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2%;
+  box-sizing: border-box;
+}
+
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Это заставит контейнер растянуться внутри body */
+}
