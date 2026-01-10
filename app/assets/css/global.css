@@ -28,7 +28,7 @@ body {
   flex-direction: column;
   min-height: 100dvh;
   width: 100%;
-  
+  margin: 0;
 }
 
 /* Общий контейнер для центрирования и отступов */
@@ -40,7 +40,7 @@ body {
   width: 100%;
 } */
 
-.container {
+/* .container {
   width: 90%;
   max-width: 1200px;
   margin: 0 auto;
@@ -52,4 +52,4 @@ body {
   display: flex;
   flex-direction: column;
   flex-grow: 1; /* Это заставит контейнер растянуться внутри body */
-}
+/* }  */

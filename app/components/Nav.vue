@@ -23,14 +23,15 @@
 <style scoped>
   
 .navigation {
-  flex: 0.3;
   display: flex;
+  flex: 0 0 15%; /* width: 15% */
+
   
   box-sizing: border-box;
   border: 1px solid black;
   
   /* padding: 2rem; */
-  height: 100hv;
+  /* height: 100hv; */
   
   flex-direction: column;
 }
@@ -39,15 +40,7 @@
   margin-bottom: 2rem;
 } */
 
-.nav-logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
-  text-decoration: none;
-  font-family: 'Arial Rounded MT Bold', sans-serif;
-  display: block;
-  /* padding: 0.5rem 0; */
-}
+
 
 .nav-menu {
   list-style: none;

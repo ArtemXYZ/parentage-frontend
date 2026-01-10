@@ -14,5 +14,10 @@
 </template>
 
 
-<style>
+<style scoped>
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
 </style>

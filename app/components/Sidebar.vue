@@ -20,13 +20,15 @@
 
 /* Сайдбар */
 .site-sidebar {
-  flex: 0.3; 
+  /* flex: 0.3;  */
+  flex: 0 0 15%; /* width: 15% */
+
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
   border: 1px solid black;
   text-align: center;
-  min-height: 100hv;
+  /* min-height: 100hv; */
 
 }
 

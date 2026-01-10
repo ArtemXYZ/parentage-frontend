@@ -88,7 +88,7 @@
 
 .header-right {
   /* Правая часть шапки */
-  flex: 0.3;
+  flex: 0 0 15%; /* width: 15% */
   display: flex;
 
   /* Текст по центру */
@@ -118,7 +118,7 @@
 /* Средняя часть шапки */
 .header-center {
 
-  flex: 0.7;
+  flex: 1;
   display: flex;
   text-align: center;
 
@@ -131,7 +131,7 @@
 
 /* Правая часть шапки */
 .header-left {
-  flex: 0.3;
+  flex: 0 0 15%; /* width: 15% */
 
   /* Это нужно для выравнивания контента, если есть текст */
   display: flex;

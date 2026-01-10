@@ -17,11 +17,12 @@
 <style scoped>
 /* Основной контент (центральная колонка) */
 .main-content {
-  flex: 0.7; /* 70% от content-area  0.7*/ 
-  padding: 2rem;
-  /* background: rgba(255, 255, 255, 0.95); */
-  border: 1px solid black;
-  min-height: 100hv;
+    padding: 2rem;
+    /* background: rgba(255, 255, 255, 0.95); */
+    border: 1px solid black;
+    /* min-height: 100dhv; */
+    flex-grow: 1; /* ← КЛЮЧЕВОЕ! Растягивает Main по ВЫСОТЕ */
+
   
 }
     

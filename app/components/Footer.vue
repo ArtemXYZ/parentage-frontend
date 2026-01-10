@@ -16,18 +16,19 @@
 <style scoped>
 
 .site-footer {
-  /* flex: 0 0 auto; */
-  flex-shrink: 0; /* Не сжимается */
 
+  flex-shrink: 0; /* Не сжимается */
+  display: block;
+  height: 100%;
   width: 100%;
   margin: 0;
   background: var(--nav-bg);
   color: white;
-  /* padding: 3rem 0 1rem; */
+  padding: 0;
   /* margin-top: 2rem; */
   /* bottom: 0; */
-
   /* margin-top: -80px; */
+  /* flex: 0 0 auto; */
 
 }
 
@@ -88,7 +89,7 @@
   /* justify-content: center; */
   /* justify-content: space-between; */
   /* align-items: center; */
-  height: 80px;
+  /* height: 80px; */
   text-align: center;
   padding: 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);

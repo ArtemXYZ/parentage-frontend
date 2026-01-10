@@ -17,21 +17,21 @@
 
 <style scoped>
 .site-main {
+    display: flex;
+    flex-direction: row;    /* Nav, Content, Sidebar - в строку */
+    /* flex-grow: 1;  */
+    /* ← КЛЮЧЕВОЕ! Растягивает Main по ВЫСОТЕ */
+    flex: 1;
+    /* Зачем: Чтобы padding и border включались в расчёт размеров элемента. */
+    box-sizing: border-box;
 
-  /* top: 0; */
-  /* bottom: 0; */
-  z-index: 1000;
-  flex-direction: row;
-  display: flex;
-  background: rgb(180, 226, 43);
-  /* border: 1px solid blueviolet; */
-  /* margin: 0; */
-  box-sizing: border-box;
-  min-height: 80vh;
-  width: 100%;
-
-  flex-grow: 1; /* Ключевое свойство - занимает всё доступное пространство */
-
-
+    /* top: 0; */
+    /* bottom: 0; */
+    background: rgb(180, 226, 43);
+  
+    /* height: 100%; */
+    /* min-height: 100dvh; */
+    /* width: 100%; */
+    /* position: relative; */
 }
 </style>
