@@ -1,4 +1,11 @@
 <script setup>
+const router = useRouter()
+const routes = router.getRoutes().filter(route => 
+  route.name && 
+  !route.path.includes(':') && 
+  route.path !== '/' &&
+  !route.path.includes('404')
+)
 </script>
 
 <template>
@@ -12,6 +19,12 @@
       <!-- Внутренние ссылки (в пределах приложения) -->
       <li><NuxtLink to="/" class="nav-link">Главная</NuxtLink></li>
       <!-- <li><NuxtLink to="/about" class="nav-link">О проекте</NuxtLink></li> -->
+
+      <li v-for="route in routes" :key="route.path">
+        <NuxtLink :to="route.path" class="nav-link">
+          {{ route.meta?.title || route.name }}
+        </NuxtLink>
+      </li>
       
       <!-- Якорные ссылки (в пределах страницы) -->
       <!-- <li><a href="#features" class="nav-link">Возможности</a></li>
@@ -51,6 +64,7 @@
 
 .nav-menu li {
   margin-bottom: 0.8rem;
+  min-height: 10%;
 }
 
 .nav-link {
