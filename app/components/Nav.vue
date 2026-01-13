@@ -1,11 +1,15 @@
 <script setup>
 const router = useRouter()
-const routes = router.getRoutes().filter(route => 
-  route.name && 
-  !route.path.includes(':') && 
-  route.path !== '/' &&
-  !route.path.includes('404')
-)
+const routes = computed(() => {
+  return router.getRoutes()
+    .filter(route => 
+      route.name && 
+      !route.path.includes(':') && 
+      route.path !== '/' &&
+      !route.path.includes('404')
+    )
+    .sort((a, b) => (a.meta?.order || 100) - (b.meta?.order || 100))
+})
 </script>
 
 <template>

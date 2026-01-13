@@ -1,4 +1,8 @@
 <script setup>
+definePageMeta({
+  title: 'О нас',  // Кастомное название для меню
+  order: 2         // Опционально: порядок в меню
+})
 </script>
 
 <template>
