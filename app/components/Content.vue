@@ -51,7 +51,7 @@ watch(() => route.path, loadContent)
     flex-grow: 1; /* ← КЛЮЧЕВОЕ! Растягивает Main по ВЫСОТЕ */  
 }
     
-.content {
+.content-container {
   width: 90%;
   max-width: 1200px;
   margin: 0 auto;
@@ -59,7 +59,7 @@ watch(() => route.path, loadContent)
   box-sizing: border-box;
 }
 
-.title {
+.content__title {
   font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 700;
   line-height: 1.2;
@@ -67,67 +67,67 @@ watch(() => route.path, loadContent)
   text-align: center;
 }
 
-.body {
+.content__text {
   font-size: clamp(1rem, 2.5vw, 1.125rem);
   line-height: 1.7;
 }
 
-/* Стили для вложенного контента */
-.body :deep(h2) {
+/* Стили для вложенного контента внутри content__text */
+.content__text :deep(h2) {
   font-size: 1.8rem;
   margin: 5% 0 2%;
 }
 
-.body :deep(h3) {
+.content__text :deep(h3) {
   font-size: 1.4rem;
   margin: 4% 0 2%;
 }
 
-.body :deep(p) {
+.content__text :deep(p) {
   margin-bottom: 3%;
 }
 
-.body :deep(ul),
-.body :deep(ol) {
+.content__text :deep(ul),
+.content__text :deep(ol) {
   margin-bottom: 3%;
   padding-left: 5%;
 }
 
-.body :deep(li) {
+.content__text :deep(li) {
   margin-bottom: 1%;
 }
 
-.body :deep(a) {
+.content__text :deep(a) {
   color: #0066cc;
 }
 
 /* Адаптивность */
 @media (max-width: 768px) {
-  .content {
+  .content-container {
     width: 95%;
     padding: 4% 3%;
   }
   
-  .title {
+  .content__title {
     margin-bottom: 5%;
   }
   
-  .body :deep(p) {
+  .content__text :deep(p) {
     margin-bottom: 5%;
   }
 }
 
 @media (max-width: 480px) {
-  .content {
+  .content-container {
     width: 98%;
     padding: 6% 2%;
   }
   
-  .title {
+  .content__title {
     margin-bottom: 8%;
   }
   
-  .body :deep(p) {
+  .content__text :deep(p) {
     margin-bottom: 8%;
   }
 }
