@@ -59,7 +59,7 @@ watch(() => route.path, loadContent)
   box-sizing: border-box;
 }
 
-.content__title {
+.content-title {
   font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 700;
   line-height: 1.2;
@@ -67,37 +67,37 @@ watch(() => route.path, loadContent)
   text-align: center;
 }
 
-.content__text {
+.content-text {
   font-size: clamp(1rem, 2.5vw, 1.125rem);
   line-height: 1.7;
 }
 
 /* Стили для вложенного контента внутри content__text */
-.content__text :deep(h2) {
+.content-text :deep(h2) {
   font-size: 1.8rem;
   margin: 5% 0 2%;
 }
 
-.content__text :deep(h3) {
+.content-text :deep(h3) {
   font-size: 1.4rem;
   margin: 4% 0 2%;
 }
 
-.content__text :deep(p) {
+.content-text :deep(p) {
   margin-bottom: 3%;
 }
 
-.content__text :deep(ul),
-.content__text :deep(ol) {
+.content-text :deep(ul),
+.content-text :deep(ol) {
   margin-bottom: 3%;
   padding-left: 5%;
 }
 
-.content__text :deep(li) {
+.content-text :deep(li) {
   margin-bottom: 1%;
 }
 
-.content__text :deep(a) {
+.content-text :deep(a) {
   color: #0066cc;
 }
 
@@ -108,11 +108,11 @@ watch(() => route.path, loadContent)
     padding: 4% 3%;
   }
   
-  .content__title {
+  .content-title {
     margin-bottom: 5%;
   }
   
-  .content__text :deep(p) {
+  .content-text :deep(p) {
     margin-bottom: 5%;
   }
 }
@@ -123,11 +123,11 @@ watch(() => route.path, loadContent)
     padding: 6% 2%;
   }
   
-  .content__title {
+  .content-title {
     margin-bottom: 8%;
   }
   
-  .content__text :deep(p) {
+  .content-text :deep(p) {
     margin-bottom: 8%;
   }
 }
