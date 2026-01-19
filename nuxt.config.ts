@@ -8,7 +8,18 @@ export default defineNuxtConfig({
   ],
     css: [
     '~/assets/css/global.css'
-  ]
+  ],
+   app: {
+    head: {
+      title: 'Parentage', // default fallback title
+      htmlAttrs: {
+        lang: 'ru',
+      },
+      // link: [
+      //   { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      // ],
+    },
+  }
   
   // routeRules: {
   //   // Set layout for specific route
