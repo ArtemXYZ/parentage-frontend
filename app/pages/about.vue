@@ -1,25 +1,20 @@
 <script setup>
 definePageMeta({
+  layout: 'default',  
   title: 'О нас',  // Кастомное название для меню
   order: 2         // Опционально: порядок в меню
 })
 </script>
 
 <template>
-  <div class="layout-container">
-    <NuxtLayout>  <!-- Всё, что здесь, попадёт в <slot /> лейаута -->
-      
-      <Header />
-      <Main />
-      <Footer />
-      
-    </NuxtLayout>
+  <div class="page-content">
+    <h1>Страница о нас</h1>
   </div>
 </template>
 
 
 <style scoped>
-.layout-container {
+.page-content {
   display: flex;
   flex-direction: column;
   min-height: 100dvh;

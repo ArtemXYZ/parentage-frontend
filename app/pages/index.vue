@@ -1,21 +1,18 @@
 <script setup>
+  definePageMeta({
+  layout: 'default',  
+})
 </script>
 
 <template>
-  <div class="layout-container">
-    <NuxtLayout>  <!-- Всё, что здесь, попадёт в <slot /> лейаута -->
-      
-      <Header />
-      <Main />
-      <Footer />
-      
-    </NuxtLayout>
+  <div class="page-content">
+    <h1>Добро пожаловать в Parentage</h1>
   </div>
 </template>
 
 
 <style scoped>
-.layout-container {
+.page-content {
   display: flex;
   flex-direction: column;
   min-height: 100dvh;

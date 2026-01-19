@@ -9,6 +9,14 @@ export default defineNuxtConfig({
     css: [
     '~/assets/css/global.css'
   ]
+  
+  // routeRules: {
+  //   // Set layout for specific route
+  //   '/index': { DefaultLayout: 'default' },
+  //   // Set layout for multiple routes
+  //   // '/dashboard/**': { appLayout: 'dashboard' },
+  // },
+
   //   components: [
   //   // Автоимпорт из твоей структуры папок
   //   { path: '~/components/sections/headers', prefix: '', extensions: ['vue'] },
