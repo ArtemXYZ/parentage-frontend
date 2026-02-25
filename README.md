@@ -1,75 +1,46 @@
-# Nuxt Minimal Starter
+<p align="center">
+  <img src="https://img.shields.io/badge/Nuxt%204-00DC82?style=for-the-badge&logo=nuxt.js&logoColor=white" alt="Nuxt 4">
+  <img src="https://img.shields.io/badge/Vue%203-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white" alt="Vue 3">
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
+</p>
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+<h1 align="center">Parentage Frontend</h1>
 
-## Setup
+<p align="center">
+  <strong>Parentage</strong> — это проект веб-приложения для построения и хранения родословных с расширенными возможностями (планируется интеграция AI).
+</p>
 
-Make sure to install dependencies:
+<p align="center">
+  <a href="https://github.com/ArtemXYZ/parentage-frontend/stargazers">
+    <img src="https://img.shields.io/github/stars/ArtemXYZ/parentage-frontend?style=social" alt="Stars">
+  </a>
+  <a href="https://github.com/ArtemXYZ/parentage-frontend/issues">
+    <img src="https://img.shields.io/github/issues/ArtemXYZ/parentage-frontend" alt="Issues">
+  </a>
+</p>
+
+---
+
+### Технологии
+
+- Nuxt 4  
+- Vue 3 (Composition API)  
+- TypeScript  
+- CSS (нативный / модульный)
+
+---
+
+### Запуск
 
 ```bash
-# npm
-npm install
+# 1. Клонирование
+git clone https://github.com/ArtemXYZ/parentage-frontend.git
+cd parentage-frontend
 
-# pnpm
+# 2. Установка зависимостей
 pnpm install
+# или npm install / yarn install / bun install
 
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
+# 3. Разработка
 pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+# → http://localhost:3000
