@@ -1,75 +1,98 @@
-<script setup lang="ts">
-const { footerLinks } = useFooterLinks()
+<script setup>
 </script>
 
 <template>
-  <USeparator icon="i-simple-icons-nuxtdotjs" class="h-px" />
 
-  <UFooter :ui="{ top: 'border-b border-default' }">
-    <template #top>
-      <UContainer>
-        <UFooterColumns :columns="footerLinks">
-          <template #right>
-            <NewsletterForm />
-          </template>
-        </UFooterColumns>
-      </UContainer>
-    </template>
+    <footer class="site-footer">
 
-    <template #left>
-      <p class="text-muted text-sm">
-        Copyright © 2016-{{ new Date().getFullYear() }} Nuxt - <NuxtLink class="hover:underline" to="https://go.nuxt.com/license" target="_blank">
-          MIT License
-        </NuxtLink>
-      </p>
-    </template>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Parentage. Все права защищены.</p>
+      </div>
 
-    <template #right>
-      <UButton
-        color="neutral"
-        variant="ghost"
-        to="https://go.nuxt.com/x"
-        target="_blank"
-        icon="i-simple-icons-x"
-      >
-        <span class="sr-only">Nuxt on X</span>
-      </UButton>
-      <UButton
-        color="neutral"
-        variant="ghost"
-        to="https://go.nuxt.com/bluesky"
-        target="_blank"
-        icon="i-simple-icons-bluesky"
-      >
-        <span class="sr-only">Nuxt on BlueSky</span>
-      </UButton>
-      <UButton
-        color="neutral"
-        variant="ghost"
-        to="https://go.nuxt.com/linkedin"
-        target="_blank"
-        icon="i-simple-icons-linkedin"
-      >
-        <span class="sr-only">Nuxt on LinkedIn</span>
-      </UButton>
-      <UButton
-        color="neutral"
-        variant="ghost"
-        to="https://go.nuxt.com/discord"
-        target="_blank"
-        icon="i-simple-icons-discord"
-      >
-        <span class="sr-only">Nuxt on Discord</span>
-      </UButton>
-      <UButton
-        color="neutral"
-        variant="ghost"
-        to="https://go.nuxt.com/github"
-        target="_blank"
-        icon="i-simple-icons-github"
-      >
-        <span class="sr-only">Nuxt on GitHub</span>
-      </UButton>
-    </template>
-  </UFooter>
+    </footer>
+
 </template>
+
+<style scoped>
+
+.site-footer {
+
+  flex-shrink: 0; /* Не сжимается */
+  display: block;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  background: var(--nav-bg);
+  color: white;
+  padding: 0;
+  /* margin-top: 2rem; */
+  /* bottom: 0; */
+  /* margin-top: -80px; */
+  /* flex: 0 0 auto; */
+
+}
+
+/* .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+} */
+
+/* .footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+} */
+
+/* .footer-section h3,
+.footer-section h4 {
+  margin-bottom: 1rem;
+  color: #ffd700;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #ffd700;
+}
+
+.social-link {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  color: white;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.social-link:hover {
+  color: #ffd700;
+} */
+
+.footer-bottom {
+  /* justify-content: center; */
+  /* justify-content: space-between; */
+  /* align-items: center; */
+  /* height: 80px; */
+  text-align: center;
+  padding: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+</style>
