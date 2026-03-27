@@ -1,67 +1,54 @@
-<script setup>
+<script setup lang="ts">
+const route = useRoute()
+const heroBackgroundClass = computed(() => route.meta?.heroBackground || '')
+const { isLoading } = useLoadingIndicator()
+
+const appear = ref(false)
+const appeared = ref(false)
+onMounted(() => {
+  setTimeout(() => {
+    appear.value = true
+    setTimeout(() => {
+      appeared.value = true
+    }, 1000)
+  }, 0)
+})
 </script>
 
 <template>
-
-<div class="layout">
+  <div :class="[(route.path.startsWith('/docs/') || route.path.startsWith('/deploy')) && 'root']">
+    <!-- <UBanner
+      id="mn-nuxt-b"
+      title="Black Friday: Get 40% OFF the complete Mastering Nuxt course"
+      icon="i-lucide-ticket-percent"
+      to="https://masteringnuxt.com/?utm_source=nuxt.com&utm_medium=banner&utm_campaign=nuxt.com"
+      target="_blank"
+      close
+      :actions="[
+        {
+          label: 'Claim offer',
+          color: 'neutral',
+          variant: 'outline',
+          trailingIcon: 'i-lucide-arrow-right',
+          to: 'https://masteringnuxt.com/?utm_source=nuxt.com&utm_medium=banner&utm_campaign=nuxt.com'
+        }
+      ]"
+    /> -->
 
     <Header />
 
-    <main class="site-main">
+    <UMain class="relative">
+      <HeroBackground
+        class="absolute w-full -top-px transition-all text-primary shrink-0 -z-10"
+        :class="[
+          isLoading ? 'animate-pulse' : (appear ? heroBackgroundClass : 'opacity-0'),
+          appeared ? 'duration-[400ms]' : 'duration-1000'
+        ]"
+      />
 
-        <Nav />
-        
-        <div class="main-content">
-          <slot />
-        </div>
+      <NuxtPage />
+    </UMain>
 
-        <Sidebar />
-
-    </main>
-
-    <Footer />
-
+    <AppFooter />
   </div>
-
 </template>
-
-
-<style>
-
-.site-main {
-  display: flex;
-  flex-direction: row;    /* Nav, Content, Sidebar - в строку */
-  /* flex-grow: 1;  */
-  /* ← КЛЮЧЕВОЕ! Растягивает Main по ВЫСОТЕ */
-  flex: 1;
-  /* Зачем: Чтобы padding и border включались в расчёт размеров элемента. */
-  box-sizing: border-box;
-
-  /* top: 0; */
-  /* bottom: 0; */
-  background: rgb(180, 226, 43);
-
-  /* height: 100%; */
-  /* min-height: 100dvh; */
-  /* width: 100%; */
-  /* position: relative; */
-}
-
-/* Основной контент (центральная колонка) */
-.main-content {
-  padding: 2rem;
-  /* background: rgba(255, 255, 255, 0.95); */
-  border: 1px solid black;
-  /* min-height: 100dhv; */
-  flex-grow: 1; /* ← КЛЮЧЕВОЕ! Растягивает Main по ВЫСОТЕ */
-}
-
-/* .app-container бывший */
-.layout { 
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  width: 100%;
-}
-
-</style>

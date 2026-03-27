@@ -21,7 +21,7 @@ const content = ref(null)
 
 const loadContent = async () => {
   try {
-    const data = await import('~/components/db.json')
+    // const data = await import('~/components/db.json')
     // Берем текущий путь из URL (без /)
     const slug = route.path.substring(1) || 'home'
     content.value = data[slug] || null
