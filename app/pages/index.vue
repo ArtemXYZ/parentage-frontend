@@ -58,9 +58,4 @@ watch(() => route.path, loadContent)
 
 
 <style scoped>
-.page-content {
-  display: flex;
-  flex-direction: column;
-  min-height: 100dvh;
-}
 </style>

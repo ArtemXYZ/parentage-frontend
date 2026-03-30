@@ -21,8 +21,9 @@
 /* Сайдбар */
 .site-sidebar {
   /* flex: 0.3;  */
-  flex: 0 0 15%; /* width: 15% */
+  flex: 0 0 21%;  /* 0 0 25%; */
 
+  /* width: 360px; */
   display: flex;
   flex-direction: column;
 

@@ -17,18 +17,24 @@
 
 .site-footer {
 
-  flex-shrink: 0; /* Не сжимается */
+  /* flex-shrink: 0; Не сжимается */
   display: block;
   height: 100%;
   width: 100%;
-  margin: 0;
   background: var(--nav-bg);
   color: white;
+  /*  */
   padding: 0;
+  /* margin: 0; */
+
+
   /* margin-top: 2rem; */
   /* bottom: 0; */
   /* margin-top: -80px; */
   /* flex: 0 0 auto; */
+
+  margin-top: auto;
+
 
 }
 

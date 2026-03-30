@@ -41,7 +41,7 @@ const routes = computed(() => {
   
 .navigation {
   display: flex;
-  flex: 0 0 15%; /* width: 15% */
+  flex: 0 0 21%; /* width: 15% */
 
   
   box-sizing: border-box;
