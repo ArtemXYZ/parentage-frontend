@@ -5,36 +5,34 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/ui',
     '@nuxt/image',
+    '@element-plus/nuxt' // <- Добавь это
   ],
-    css: [
+  css: [
     '~/assets/css/global.css'
   ],
-   app: {
+  app: {
     head: {
       title: 'Parentage', // default fallback title
       htmlAttrs: {
         lang: 'ru',
       },
+
+    },
+  },
+  components: [
+    { path: '~/components/widgets/person-form', pathPrefix: false },
+    { path: '~/components/construction/sections', pathPrefix: false }
+  ],
+})
+
+
       // link: [
       //   { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       // ],
-    },
-  }
-  
+
   // routeRules: {
   //   // Set layout for specific route
   //   '/index': { DefaultLayout: 'default' },
   //   // Set layout for multiple routes
   //   // '/dashboard/**': { appLayout: 'dashboard' },
   // },
-
-  //   components: [
-  //   // Автоимпорт из твоей структуры папок
-  //   { path: '~/components/sections/headers', prefix: '', extensions: ['vue'] },
-  //   { path: '~/components/sections/main_containers', prefix: '', extensions: ['vue'] },
-  //   { path: '~/components/sections/footers', prefix: '', extensions: ['vue'] },
-  //   // Стандартный путь для остальных компонентов
-  //   '~/components'
-  // ]
-
-})
