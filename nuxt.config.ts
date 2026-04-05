@@ -20,8 +20,9 @@ export default defineNuxtConfig({
     },
   },
   components: [
+    { path: '~/components/construction/sections', pathPrefix: false },
     { path: '~/components/widgets/person-form', pathPrefix: false },
-    { path: '~/components/construction/sections', pathPrefix: false }
+    { path: '~/components/widgets/trees', pathPrefix: false }
   ],
 })
 

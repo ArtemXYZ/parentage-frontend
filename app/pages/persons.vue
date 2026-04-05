@@ -1,17 +1,18 @@
 <script setup>
 
+const PageName = 'Персоны'
 
 definePageMeta({
   layout: 'default',  
-  title: 'Персоны',  // Кастомное название для меню
-  order: 3         // Опционально: порядок в меню
+  title: PageName,  
+  order: 3         
 })
 
 
-const handleSubmit = async (data) => {
-  console.log('Данные формы:', data)
-  // Твой API вызов
-}
+// const handleSubmit = async (data) => {
+//   console.log('Данные формы:', data)
+//   // Твой API вызов
+// }
 
 </script>
 
@@ -19,7 +20,7 @@ const handleSubmit = async (data) => {
   <div class="page-content">
         <!-- СЛОТ ЗАГОЛОВКА -->
     <div name="title">
-        <h1>Персоны</h1>
+        <h1>{{PageName}}</h1>
     </div>
 
 
