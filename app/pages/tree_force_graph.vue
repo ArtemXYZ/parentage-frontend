@@ -12,7 +12,7 @@ definePageMeta({
   <div class="page-content">
     <div class="title-section">
       <h1>{{ pageName }}</h1>
-      <p class="subtitle">Визуализация семейного древа</p>
+      <p class="subtitle">Визуализация семейного древа Направленный силовой граф</p>
     </div>
 
     <!-- Виджет графа -->

@@ -1,12 +1,11 @@
 <script setup>
 
-const PageName = 'О нас'
-
+const PageName = 'Места'
 
 definePageMeta({
   layout: 'default',  
-  title: 'О нас',  // Кастомное название для меню
-  order: 2         // Опционально: порядок в меню
+  title: PageName,  
+  order: 4        
 })
 </script>
 
