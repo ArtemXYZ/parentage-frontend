@@ -2,7 +2,7 @@
 const pageName = 'Древо'
 
 definePageMeta({
-  layout: 'default',  
+  layout: 'tree-layout',  //  default  
   title: pageName,
   order: 3
 })
@@ -16,11 +16,11 @@ definePageMeta({
     </div>
 
     <!-- Виджет графа -->
-    <FoceDirectedGraph 
+    <ForceDirectedGraph 
       :width="960"
       :height="600"
-      :node-radius="6"
-      :charge-force="-80"
+      :node-radius=6
+      :charge-force=-80
     />
   </div>
 </template>

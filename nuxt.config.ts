@@ -5,11 +5,14 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/ui',
     '@nuxt/image',
-    '@element-plus/nuxt' // <- Добавь это
+    '@pinia/nuxt',
+    '@element-plus/nuxt',
+
   ],
   css: [
     '~/assets/css/global.css'
   ],
+  
   app: {
     head: {
       title: 'Parentage', // default fallback title
@@ -19,11 +22,20 @@ export default defineNuxtConfig({
 
     },
   },
+  
   components: [
     { path: '~/components/construction/sections', pathPrefix: false },
+    { path: '~/components/construction/sections/default', pathPrefix: false },
+    { path: '~/components/construction/sections/tree-layout', pathPrefix: false },
+    // 
+    { path: '~/pages/tree', pathPrefix: false },
+    // 
     { path: '~/components/widgets/person-form', pathPrefix: false },
-    { path: '~/components/widgets/trees', pathPrefix: false }
-  ],
+    { path: '~/components/widgets/menu', pathPrefix: false },
+    { path: '~/components/widgets/trees', pathPrefix: false },
+    { path: '~/components/widgets/backgrounds/trees', pathPrefix: false },
+    { path: '~/components/widgets/backgrounds/live', pathPrefix: false }
+  ]
 })
 
 

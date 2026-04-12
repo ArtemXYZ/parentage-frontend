@@ -2,7 +2,7 @@
 const pageName = 'Древо'
 
 definePageMeta({
-  layout: 'default',  
+  layout: 'tree-layout',  //  default
   title: pageName,
   order: 3
 })

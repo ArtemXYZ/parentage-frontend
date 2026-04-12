@@ -2,7 +2,7 @@
 const pageName = 'Дендрограмма'
 
 definePageMeta({
-  layout: 'default',  
+  layout: 'tree-layout',  //  default
   title: pageName,
   order: 3
 })
