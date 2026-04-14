@@ -92,8 +92,8 @@ function stopResize() {
 }
 
 .icon-bar {
-  width: 60px;
-  background: #2c3e50;
+  width: 45px;
+  background: #693030f2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -103,8 +103,8 @@ function stopResize() {
 
 .icon-item {
   position: relative;
-  width: 48px;
-  height: 48px;
+  width: 35px;
+  height: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,7 +115,7 @@ function stopResize() {
 }
 
 .icon-item:hover {
-  background: #3b5c7a;
+  background: #73f051f2;
 }
 
 .icon-item.active {

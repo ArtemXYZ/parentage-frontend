@@ -29,17 +29,6 @@
 
 <style scoped>
 
-/* .site-header {
-  background: rgba(89, 131, 173, 0.95);
-  backdrop-filter: blur(20px);
-  border-bottom: 2px solid rgba(185, 35, 35, 0.1);
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-} */
-
-/* Стили шапки */
 .site-header {
   /* Включаем отступы внутрь элемента */
   box-sizing: border-box;
@@ -55,12 +44,11 @@
 
   /* Фиксируем высоту */
   /* height: 80px; */
-  min-height: 12dvh;
+  min-height: 6dvh;
 
   /* Растягиваем шапку на всю ширину  + */
   width: 100%;
-  z-index: 1000;
-  /* position: fixed; */
+
 
   /* Коричневый фон градиент  */
   /* background-image: linear-gradient(

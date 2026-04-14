@@ -3,11 +3,14 @@
 
   <div class="tree-layout">
     
-    <TreeHeader />
+    <HeaderMini />
+    <NavBar /> 
 
+    <!-- АНИМАЦИЮ ПЛАВНУЮ, НОРМАЛЬНЫЕ ИКОНКИ, РАСКРЫТИЕ, ПОДСКАЗКИ  -->
     <main class="tree-main">
       <LeftDock />
 
+      <!-- Доработать фон - добавить сетку -->
       <div class="canvas-container">
         <slot /> <!-- Здесь будет страница с TreeCanvas или напрямую компонент графа -->
       </div>
@@ -15,7 +18,7 @@
       <RightDrawer />
     </main>
 
-    <Footer />
+    <FooterMini />
   </div>
 </template>
 
