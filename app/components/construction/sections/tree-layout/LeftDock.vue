@@ -30,10 +30,6 @@
 </template>
 
 <script setup>
-// import { ref, computed } from 'vue'
-// import { useRoutesTree } from '~/composables/useRoutesTree'
-// import { useLocalStorage } from '~/composables/useLocalStorage'
-
 const dockItems = [
   { id: 'tree', icon: '🌳', label: 'Древо' },
   { id: 'search', icon: '🔍', label: 'Поиск' },

@@ -43,7 +43,7 @@
 .canvas-container {
   flex: 1;
   position: relative;
-  background: #f5f5f5; /* или цвет подложки */
+  /* background: #f5f5f5; или цвет подложки */
   overflow: hidden;
 }
 </style>
