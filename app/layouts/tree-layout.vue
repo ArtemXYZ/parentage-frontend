@@ -1,28 +1,51 @@
 <!-- layouts/tree-layout.vue -->
 <template>
-
   <div class="tree-layout">
-    
     <HeaderMini />
-    <NavBar /> 
-
-    <!-- АНИМАЦИЮ ПЛАВНУЮ, НОРМАЛЬНЫЕ ИКОНКИ, РАСКРЫТИЕ, ПОДСКАЗКИ  -->
-    <main class="tree-main">
+    <NavBar />
+    
+    <main ref="mainRef" class="tree-main">
       <LeftDock />
-
-      <!-- Доработать фон - добавить сетку -->
+      
       <div class="canvas-container">
-        <slot /> <!-- Здесь будет страница с TreeCanvas или напрямую компонент графа -->
+        <slot />
       </div>
-
-      <RightDrawer />
+      
+      <PanelTrigger @click="openEditorPanel" />
     </main>
-
+    
     <FooterMini />
+    
+    <FloatingPanel 
+      v-model:is-open="isEditorOpen"
+      title="Редактор"
+      :container-ref="mainRef"
+      default-width="380"
+      storage-key="right-editor-width"
+    >
+      <slot name="editor-content">
+        <div class="default-content">
+          <p>Выберите персону для редактирования</p>
+        </div>
+      </slot>
+    </FloatingPanel>
   </div>
 </template>
 
 <script setup>
+import PanelTrigger from '~/components/widgets/triggers/PanelTrigger.vue'
+import FloatingPanel from '~/components/widgets/overlays/FloatingPanel.vue'
+
+const mainRef = ref(null)
+const isEditorOpen = ref(false)
+
+const openEditorPanel = () => {
+  isEditorOpen.value = true
+}
+
+// Провайдим для использования в других компонентах
+provide('openEditor', openEditorPanel)
+provide('editorState', { isOpen: isEditorOpen })
 </script>
 
 <style scoped>
@@ -37,13 +60,20 @@
   display: flex;
   flex: 1;
   position: relative;
-  overflow: hidden; /* Чтобы панели не вылезали */
+  overflow: hidden;
 }
 
 .canvas-container {
   flex: 1;
   position: relative;
-  /* background: #f5f5f5; или цвет подложки */
+  background: transparent;
   overflow: hidden;
+}
+
+.default-content {
+  color: #64748b;
+  font-size: 13px;
+  text-align: center;
+  padding: 20px;
 }
 </style>
