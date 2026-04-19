@@ -1,6 +1,7 @@
 <!-- components/widgets/backgrounds/trees/TreeCanvas.vue -->
 <script setup>
 import * as d3 from 'd3'
+import ZoomControls from '~/components/widgets/controls/ZoomControls.vue'
 
 const canvasRef = ref(null)
 const svgRef = ref(null)
@@ -27,7 +28,7 @@ onMounted(() => {
   const svg = d3.select(svgRef.value)
   zoomBehavior = d3.zoom()
     .scaleExtent([0.2, 4])
-    .filter((event) => event.type === 'wheel' || event.ctrlKey)
+    // Убираем фильтр, разрешаем drag
     .on('zoom', (event) => {
       d3.select(zoomGroup.value).attr('transform', event.transform)
       zoom.value = event.transform.k
@@ -64,11 +65,8 @@ defineExpose({ zoomGroup, svgRef, canvasRef })
         <slot />
       </g>
     </svg>
-    <div class="zoom-controls">
-      <button @click="zoomIn" class="zoom-btn" title="Приблизить">+</button>
-      <button @click="zoomOut" class="zoom-btn" title="Отдалить">−</button>
-      <button @click="resetZoom" class="zoom-btn" title="Сбросить">⌂</button>
-    </div>
+
+    <ZoomControls @zoomIn="zoomIn" @zoomOut="zoomOut" @reset="resetZoom" />
   </div>
 </template>
 

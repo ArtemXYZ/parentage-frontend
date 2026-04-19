@@ -12,7 +12,7 @@
         height: panelHeight + 'px'
       }"
     >
-      <!-- Заголовок с кнопками управления -->
+      <!-- Светлый заголовок с кнопками управления -->
       <div class="panel-header">
         <span class="panel-title">{{ title }}</span>
         <div class="panel-actions">
@@ -35,7 +35,7 @@
         </div>
       </div>
 
-      <!-- Панель вкладок (появляется только при наличии вкладок) -->
+      <!-- Панель вкладок в тёмном стиле NavBar (появляется только при наличии вкладок) -->
       <div v-if="tabsManager && tabsManager.openTabs.value.length" class="panel-tabs">
         <div class="tabs-container" ref="tabsContainer">
           <div
@@ -63,14 +63,16 @@
             </button>
           </div>
         </div>
-        <button class="tab-action" @click="tabsManager.closeAllTabs" title="Закрыть все">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-            <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
+        <div class="tabs-actions">
+          <button class="tab-action" @click="tabsManager.closeAllTabs" title="Закрыть все">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
-      <!-- Контент активной вкладки -->
+      <!-- Контент активной вкладки (светлый) -->
       <div class="panel-content">
         <slot />
       </div>
@@ -213,6 +215,7 @@ defineExpose({ close, minimize })
 </script>
 
 <style scoped>
+/* Светлая панель в целом */
 .floating-panel {
   position: fixed;
   background: #ffffff;
@@ -223,7 +226,7 @@ defineExpose({ close, minimize })
   border-left: 1px solid #e2e8f0;
 }
 
-/* Заголовок – светлый, как и был */
+/* Светлый заголовок */
 .panel-header {
   display: flex;
   align-items: center;
@@ -260,60 +263,59 @@ defineExpose({ close, minimize })
   color: #0f172a;
 }
 
-/* Панель вкладок – светлая, с отступами и промежутками */
+/* Тёмная панель вкладок (стили из NavBar) */
 .panel-tabs {
   display: flex;
   align-items: center;
-  background: #f8fafc;
-  border-bottom: 1px solid #e2e8f0;
-  padding: 6px 8px;
-  gap: 6px;
+  background: #1e2a36;
+  border-bottom: 4px solid #2c3e50;
+  border-top: 4px solid #2c3e50;
+
+  padding: 0 8px;
+  height: 32px;
   flex-shrink: 0;
 }
 
 .tabs-container {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 2px;
   flex: 1;
   overflow-x: auto;
   scrollbar-width: thin;
+  height: 100%;
 }
 .tabs-container::-webkit-scrollbar {
-  height: 3px;
+  height: 2px;
 }
 .tabs-container::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
+  background: #3b5c7a;
+  border-radius: 2px;
 }
 
 .tab-item {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 10px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
+  padding: 4px 8px 4px 10px;
+  background: #2c3e50;
+  border-radius: 4px 4px 0 0;
   font-size: 12px;
-  color: #475569;
+  color: #bdc3c7;
   cursor: pointer;
   transition: all 0.15s;
   white-space: nowrap;
+  border-right: 1px solid #1a252f;
   user-select: none;
   max-width: 180px;
-  height: 30px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  height: 100%;
 }
 .tab-item:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
+  background: #34495e;
 }
 .tab-item.active {
-  background: #ffffff;
-  color: #1e293b;
-  border-color: #3b82f6;
-  box-shadow: 0 1px 3px rgba(59,130,246,0.1);
+  background: #3b5c7a;
+  color: #ffffff;
 }
 .tab-icon {
   display: flex;
@@ -328,49 +330,54 @@ defineExpose({ close, minimize })
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   background: transparent;
   border: none;
-  border-radius: 4px;
-  color: #94a3b8;
+  border-radius: 2px;
+  color: #7f8c8d;
   cursor: pointer;
   padding: 0;
   margin-left: 2px;
-  font-size: 12px;
 }
 .tab-close:hover {
-  background: #e2e8f0;
-  color: #ef4444;
+  background: #5d6d7e;
+  color: #ffffff;
+}
+
+.tabs-actions {
+  display: flex;
+  align-items: center;
+  padding-left: 4px;
 }
 
 .tab-action {
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  color: #64748b;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: #7f8c8d;
   cursor: pointer;
-  flex-shrink: 0;
-  transition: all 0.15s;
 }
 .tab-action:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
-  color: #0f172a;
+  background: #2c3e50;
+  color: #ffffff;
 }
 
+/* Светлый контент */
 .panel-content {
   flex: 1;
   overflow-y: auto;
   padding: 16px;
   background: #ffffff;
+  color: #1e293b;
 }
 
+/* Ручка ресайза */
 .resize-handle {
   position: absolute;
   left: -3px;

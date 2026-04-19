@@ -11,7 +11,7 @@
       <PanelTrigger @click="openEditorPanel" />
     </main>
     <FooterMini />
-    <FloatingPanel
+    <FloatingPanelBlack
       v-model:is-open="isEditorOpen"
       title="Редактор"
       :container-ref="mainRef"
@@ -23,13 +23,13 @@
           <p>Выберите персону для редактирования</p>
         </div>
       </slot>
-    </FloatingPanel>
+    </FloatingPanelBlack>
   </div>
 </template>
 
 <script setup>
 import PanelTrigger from '~/components/widgets/triggers/PanelTrigger.vue'
-import FloatingPanel from '~/components/widgets/overlays/FloatingPanel.vue'
+import FloatingPanelBlack from '~/components/widgets/overlays/FloatingPanelBlack.vue'
 import { useTabsManager } from '~/composables/useTabsManager'
 
 const mainRef = ref(null)
