@@ -1,3 +1,8 @@
+<!-- components/widgets/trees/DendrogramGraph.vue -->
+<template>
+  <div class="dendrogram-graph" ref="containerRef"></div>
+</template>
+
 <script setup>
 import * as d3 from 'd3'
 
@@ -8,10 +13,10 @@ const props = defineProps({
 })
 
 const containerRef = ref(null)
-let currentZoomGroup = null
-let currentData = null
+const tabsManager = inject('tabsManager')
+const openEditor = inject('openEditor')
+const clickHandler = new NodeClickHandler(tabsManager, openEditor)
 
-// Дефолтные данные
 const defaultHierarchy = {
   name: "Род Петровых",
   children: [
@@ -38,62 +43,35 @@ const defaultHierarchy = {
   ]
 }
 
-const getData = () => {
-  if (props.customData) return props.customData
-  return defaultHierarchy
-}
+const getData = () => props.customData || defaultHierarchy
 
-// Поиск группы зума от TreeCanvas
 const findZoomGroup = () => {
   if (!containerRef.value) return null
   const svg = containerRef.value.closest('.tree-canvas')?.querySelector('svg')
-  if (!svg) return null
-  return svg.querySelector('g') // это zoomGroup
+  return svg?.querySelector('g')
 }
 
-// Отрисовка графа
 const renderGraph = () => {
   const zoomGroup = findZoomGroup()
-  if (!zoomGroup) {
-    console.warn('Zoom group not found, retrying...')
-    setTimeout(renderGraph, 100)
-    return
-  }
+  if (!zoomGroup) return setTimeout(renderGraph, 100)
 
-  currentZoomGroup = zoomGroup
-  
-  // Очищаем предыдущий граф (но сохраняем трансформацию)
-  const existingGraph = zoomGroup.querySelector('.dendrogram-content')
-  if (existingGraph) {
-    existingGraph.remove()
-  }
+  d3.select(zoomGroup).selectAll('.dendrogram-content').remove()
 
-  // Получаем размеры контейнера
   const container = containerRef.value.closest('.tree-canvas')
   if (!container) return
-  
+
   const width = container.clientWidth
   const height = container.clientHeight
-
   const rootData = getData()
-  currentData = rootData
-
-  // Создаём иерархию
   const root = d3.hierarchy(rootData)
-  const clusterLayout = d3.cluster()
-    .size([height, width - props.marginLeft - props.marginRight])
-  clusterLayout(root)
+  d3.cluster().size([height, width - props.marginLeft - props.marginRight])(root)
 
-  // Создаём группу для содержимого дендрограммы
   const graphGroup = d3.select(zoomGroup)
     .append('g')
     .attr('class', 'dendrogram-content')
     .attr('transform', `translate(${props.marginLeft}, 0)`)
 
-  // Рисуем линии (диагонали)
-  const diagonal = d3.linkHorizontal()
-    .x(d => d.y)
-    .y(d => d.x)
+  const diagonal = d3.linkHorizontal().x(d => d.y).y(d => d.x)
 
   graphGroup.selectAll('.link')
     .data(root.links())
@@ -105,13 +83,17 @@ const renderGraph = () => {
     .attr('stroke', '#ccc')
     .attr('stroke-width', 1.5)
 
-  // Рисуем узлы
   const node = graphGroup.selectAll('.node')
     .data(root.descendants())
     .enter()
     .append('g')
     .attr('class', 'node')
     .attr('transform', d => `translate(${d.y}, ${d.x})`)
+    .style('cursor', 'pointer')
+    .on('click', (event, d) => {
+      event.stopPropagation()
+      clickHandler.handlePersonClick(d.data)
+    })
 
   node.append('circle')
     .attr('r', 5)
@@ -125,85 +107,47 @@ const renderGraph = () => {
     .attr('text-anchor', d => d.children ? 'end' : 'start')
     .style('font-size', '12px')
     .style('fill', '#333')
+    .style('pointer-events', 'none')
     .text(d => d.data.name)
-
-  node.append('title')
-    .text(d => d.data.type === 'person' ? `${d.data.name}\nПерсона` : d.data.name)
 }
 
-// Следим за появлением zoomGroup (может монтироваться позже)
 watchEffect(() => {
   if (containerRef.value) {
-    const zoomGroup = findZoomGroup()
-    if (zoomGroup) {
-      renderGraph()
-    } else {
-      // Ждём появления
+    const zg = findZoomGroup()
+    if (zg) renderGraph()
+    else {
       const observer = new MutationObserver(() => {
         const zg = findZoomGroup()
-        if (zg) {
-          observer.disconnect()
-          renderGraph()
-        }
+        if (zg) { observer.disconnect(); renderGraph() }
       })
       observer.observe(containerRef.value.closest('.tree-canvas') || document.body, {
-        childList: true,
-        subtree: true
+        childList: true, subtree: true
       })
     }
   }
 })
 
-// Следим за изменением данных
-watch(() => props.customData, () => {
-  renderGraph()
-}, { deep: true })
+watch(() => props.customData, renderGraph, { deep: true })
 
-// Следим за изменением размеров
 let resizeObserver
 onMounted(() => {
   const container = containerRef.value?.closest('.tree-canvas')
   if (container && window.ResizeObserver) {
-    resizeObserver = new ResizeObserver(() => renderGraph())
+    resizeObserver = new ResizeObserver(renderGraph)
     resizeObserver.observe(container)
   }
 })
-
-onUnmounted(() => {
-  if (resizeObserver) resizeObserver.disconnect()
-})
+onUnmounted(() => resizeObserver?.disconnect())
 </script>
 
-<template>
-  <div class="dendrogram-integration" ref="containerRef"></div>
-</template>
-
 <style scoped>
-.dendrogram-integration {
+.dendrogram-graph {
   width: 100%;
   height: 100%;
   position: absolute;
   top: 0;
   left: 0;
-  pointer-events: none; /* Чтобы клики проходили сквозь контейнер к узлам */
 }
-
-:deep(.link) {
-  pointer-events: none;
-}
-
-:deep(.node) {
-  pointer-events: auto;
-  cursor: pointer;
-}
-
-:deep(.node circle:hover) {
-  r: 7;
-  fill: #ff6b6b;
-}
-
-:deep(.node text:hover) {
-  font-size: 14px;
-  font-weight: bold;
-}
+:deep(.link) { pointer-events: none; }
+:deep(.node circle:hover) { r: 7; fill: #ff6b6b; }
 </style>

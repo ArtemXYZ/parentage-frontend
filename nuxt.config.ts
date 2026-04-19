@@ -34,7 +34,9 @@ export default defineNuxtConfig({
     { path: '~/components/widgets/menu', pathPrefix: false },
     { path: '~/components/widgets/trees', pathPrefix: false },
     { path: '~/components/widgets/backgrounds/trees', pathPrefix: false },
-    { path: '~/components/widgets/backgrounds/live', pathPrefix: false }
+    { path: '~/components/widgets/backgrounds/live', pathPrefix: false },
+    { path: '~/components/widgets/triggers', pathPrefix: false },
+    { path: '~/components/widgets/overlays', pathPrefix: false }
   ]
 })
 

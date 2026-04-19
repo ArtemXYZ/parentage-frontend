@@ -3,24 +3,19 @@
   <div class="tree-layout">
     <HeaderMini />
     <NavBar />
-    
     <main ref="mainRef" class="tree-main">
       <LeftDock />
-      
       <div class="canvas-container">
         <slot />
       </div>
-      
       <PanelTrigger @click="openEditorPanel" />
     </main>
-    
     <FooterMini />
-    
-    <FloatingPanel 
+    <FloatingPanel
       v-model:is-open="isEditorOpen"
       title="Редактор"
       :container-ref="mainRef"
-      default-width="380"
+      :default-width="380"
       storage-key="right-editor-width"
     >
       <slot name="editor-content">
@@ -35,17 +30,16 @@
 <script setup>
 import PanelTrigger from '~/components/widgets/triggers/PanelTrigger.vue'
 import FloatingPanel from '~/components/widgets/overlays/FloatingPanel.vue'
+import { useTabsManager } from '~/composables/useTabsManager'
 
 const mainRef = ref(null)
 const isEditorOpen = ref(false)
 
-const openEditorPanel = () => {
-  isEditorOpen.value = true
-}
+const tabsManager = useTabsManager()
+provide('tabsManager', tabsManager)
+provide('openEditor', () => { isEditorOpen.value = true })
 
-// Провайдим для использования в других компонентах
-provide('openEditor', openEditorPanel)
-provide('editorState', { isOpen: isEditorOpen })
+const openEditorPanel = () => { isEditorOpen.value = true }
 </script>
 
 <style scoped>
@@ -55,21 +49,18 @@ provide('editorState', { isOpen: isEditorOpen })
   min-height: 100vh;
   width: 100%;
 }
-
 .tree-main {
   display: flex;
   flex: 1;
   position: relative;
   overflow: hidden;
 }
-
 .canvas-container {
   flex: 1;
   position: relative;
   background: transparent;
   overflow: hidden;
 }
-
 .default-content {
   color: #64748b;
   font-size: 13px;
