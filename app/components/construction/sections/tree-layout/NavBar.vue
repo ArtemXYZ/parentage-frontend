@@ -48,12 +48,12 @@ function toggleMenu(menu) {
   flex-direction: row;
   box-sizing: border-box;
   width: 100%;
-  height: 28px;
+  height: 35px;
   padding: 3px 0px;
   border-bottom: 1px solid #2c3e50;
   align-items: center;
   justify-content: center;
-  background: #1a252f;
+  background: #1e2a36;
 }
 .menu-bar { display: flex; gap: 1rem; }
 .menu-item {

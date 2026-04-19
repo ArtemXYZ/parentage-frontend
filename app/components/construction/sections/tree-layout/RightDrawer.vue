@@ -114,7 +114,7 @@ function startResize(e) {
   align-items: center;
   padding-top: 16px;
   gap: 6px;
-  background: #f8fafc;
+  background: #1e1e1e;
   border-left: 1px solid #e2e8f0;
   cursor: pointer;
   transition: background 0.15s;

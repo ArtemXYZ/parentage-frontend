@@ -9,7 +9,7 @@
         :class="{ active: activeIcon === item.id }"
         @click="toggleSlideout(item.id)"
       >
-        <span class="icon">{{ item.icon }}</span>
+        <Icon :name="item.iconName" class="dock-icon" />
         <span class="tooltip">{{ item.label }}</span>
       </div>
     </div>
@@ -21,8 +21,17 @@
           <button class="resize-handle" @mousedown="startResize">⋮</button>
         </div>
         <div class="slideout-content">
-          <!-- Древовидное меню на основе роутов -->
-          <TreeMenu :routes-tree="routesTree" @navigate="closeSlideout" />
+          <!-- Иерархия родственников для вкладки "Древо" -->
+          <FamilyTreeMenu v-if="activeSlideout === 'tree'" />
+          <!-- Заглушки для других вкладок -->
+          <div v-else-if="activeSlideout === 'search'" class="placeholder-content">
+            <Icon name="ph:magnifying-glass" class="placeholder-icon" />
+            <p>Поиск по древу</p>
+          </div>
+          <div v-else-if="activeSlideout === 'settings'" class="placeholder-content">
+            <Icon name="ph:gear" class="placeholder-icon" />
+            <p>Настройки</p>
+          </div>
         </div>
       </div>
     </transition>
@@ -31,16 +40,14 @@
 
 <script setup>
 const dockItems = [
-  { id: 'tree', icon: '🌳', label: 'Древо' },
-  { id: 'search', icon: '🔍', label: 'Поиск' },
-  { id: 'settings', icon: '⚙️', label: 'Настройки' },
+  { id: 'tree', iconName: 'ph:git-branch', label: 'Древо' },
+  { id: 'search', iconName: 'ph:magnifying-glass', label: 'Поиск' },
+  { id: 'settings', iconName: 'ph:gear', label: 'Настройки' },
 ]
 
 const activeIcon = ref(null)
 const activeSlideout = ref(null)
 const slideoutWidth = useLocalStorage('left-slideout-width', 280)
-
-const routesTree = useRoutesTree() // получаем иерархическое дерево роутов
 
 const currentSlideoutLabel = computed(() => {
   const item = dockItems.find(i => i.id === activeSlideout.value)
@@ -88,8 +95,8 @@ function stopResize() {
 }
 
 .icon-bar {
-  width: 45px;
-  background: #693030f2;
+  width: 40px;
+  background: #1e2a36;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -108,18 +115,22 @@ function stopResize() {
   border-radius: 8px;
   margin-bottom: 0.5rem;
   transition: background 0.2s;
+  color: #bdc3c7;
 }
 
 .icon-item:hover {
-  background: #73f051f2;
+  background: #2c3e50;
+  color: #ffffff;
 }
 
 .icon-item.active {
   background: #1abc9c;
+  color: #ffffff;
 }
 
-.icon {
-  font-size: 1.5rem;
+.dock-icon {
+  width: 22px;
+  height: 22px;
 }
 
 .tooltip {
@@ -142,7 +153,7 @@ function stopResize() {
 .slideout-panel {
   position: absolute;
   top: 0;
-  left: 60px;
+  left: 40px;
   height: 100%;
   background: #ecf0f1;
   box-shadow: 2px 0 8px rgba(0,0,0,0.1);
@@ -173,6 +184,24 @@ function stopResize() {
   flex: 1;
   overflow-y: auto;
   padding: 0.5rem;
+}
+
+.placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #64748b;
+  text-align: center;
+  padding: 2rem;
+}
+
+.placeholder-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  opacity: 0.5;
 }
 
 .slide-enter-active, .slide-leave-active {
