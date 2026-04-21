@@ -82,8 +82,9 @@ const renderGraph = () => {
       clickHandler.handleDoubleClick(d.data)
     })
 
+  // кружок узла
   node.append('circle')
-    .attr('r', 5)
+    .attr('r', 6)
     .attr('fill', d => {
       if (d.data.gender === 'male') return '#4a90e2'
       if (d.data.gender === 'female') return '#e24a4a'
@@ -92,17 +93,42 @@ const renderGraph = () => {
     .attr('stroke', '#fff')
     .attr('stroke-width', 2)
 
-  node.append('text')
-    .attr('dy', '0.31em')
-    .attr('dx', d => d.x < 180 ? 10 : -10)
-    .attr('text-anchor', d => d.x < 180 ? 'start' : 'end')
-    .attr('transform', d => d.x < 180 ? null : 'rotate(180)')
-    .style('font-size', '11px')
-    .style('fill', '#333')
-    .style('pointer-events', 'none')
-    .text(d => d.data.name)
+  // Горизонтальная подпись с полупрозрачным фоном
+  node.each(function(d) {
+    const nodeGroup = d3.select(this)
+    const angle = d.x // 0..360
 
-  node.append('title').text(d => d.data.birthYear ? `${d.data.name}\n${d.data.birthYear}` : d.data.name)
+    // Группа, компенсирующая поворот узла — чтобы текст всегда был горизонтальным
+    const labelGroup = nodeGroup.append('g')
+      .attr('transform', `rotate(${-(angle - 90)})`)
+
+    // Текст
+    const text = labelGroup.append('text')
+      .attr('dy', '0.35em')
+      .attr('dx', angle < 180 ? 25 : -25)           // отступ от узла
+      .attr('text-anchor', angle < 180 ? 'start' : 'end')
+      .style('font-size', '12px')
+      .style('font-weight', '500')
+      .style('fill', '#1e293b')
+      .style('pointer-events', 'none')
+      .text(d.data.name)
+
+    // Фон (прямоугольник позади текста)
+    const bbox = text.node().getBBox()
+    labelGroup.insert('rect', 'text')
+      .attr('x', bbox.x - 4)
+      .attr('y', bbox.y - 1)
+      .attr('width', bbox.width + 12)
+      .attr('height', bbox.height + 4)
+      .attr('fill', 'rgba(255, 255, 255, 0.85)')
+      .attr('rx', 4)
+      .attr('ry', 4)
+      .style('pointer-events', 'none')
+  })
+
+  // тултип (опционально)
+  node.append('title')
+    .text(d => d.data.birthYear ? `${d.data.name}\n${d.data.birthYear}` : d.data.name)
 }
 
 watchEffect(() => {
