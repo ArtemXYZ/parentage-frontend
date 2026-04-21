@@ -39,6 +39,12 @@ const tabsManager = useTabsManager()
 provide('tabsManager', tabsManager)
 provide('openEditor', () => { isEditorOpen.value = true })
 
+// Для подсветки выбранного узла в дереве
+const selectedNodeId = ref(null)
+const setSelectedNode = (id) => { selectedNodeId.value = id }
+provide('selectedNodeId', selectedNodeId)
+provide('setSelectedNode', setSelectedNode)
+
 const openEditorPanel = () => { isEditorOpen.value = true }
 </script>
 
@@ -67,4 +73,4 @@ const openEditorPanel = () => { isEditorOpen.value = true }
   text-align: center;
   padding: 20px;
 }
-</style>
+</style>  

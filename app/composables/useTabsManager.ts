@@ -13,6 +13,19 @@ export const useTabsManager = () => {
     activeTab.value = tab.id
   }
 
+  const replaceActiveTab = (tab) => {
+    const activeId = activeTab.value
+    if (activeId) {
+      const index = openTabs.value.findIndex(t => t.id === activeId)
+      if (index !== -1) {
+        openTabs.value.splice(index, 1, { ...tab })
+        activeTab.value = tab.id
+        return
+      }
+    }
+    addTab(tab)
+  }
+
   const closeTab = (id) => {
     const index = openTabs.value.findIndex(t => t.id === id)
     if (index === -1) return
@@ -35,6 +48,7 @@ export const useTabsManager = () => {
     openTabs: readonly(openTabs),
     activeTab: readonly(activeTab),
     addTab,
+    replaceActiveTab,
     closeTab,
     closeAllTabs,
     setActiveTab

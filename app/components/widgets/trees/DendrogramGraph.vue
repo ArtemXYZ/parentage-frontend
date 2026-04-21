@@ -5,6 +5,8 @@
 
 <script setup>
 import * as d3 from 'd3'
+import { NodeClickHandler } from '~/utils/NodeClickHandler'
+import { hierarchyData } from '~/mocks/familyData'
 
 const props = defineProps({
   customData: { type: Object, default: null },
@@ -17,33 +19,7 @@ const tabsManager = inject('tabsManager')
 const openEditor = inject('openEditor')
 const clickHandler = new NodeClickHandler(tabsManager, openEditor)
 
-const defaultHierarchy = {
-  name: "Род Петровых",
-  children: [
-    {
-      name: "Иван Петров (1950)",
-      type: "person",
-      children: [
-        { name: "Алексей Иванов (1975)", type: "person", children: [
-          { name: "Дмитрий Иванов (2000)", type: "person" },
-          { name: "Анна Иванова (2002)", type: "person" }
-        ]},
-        { name: "Сергей Петров (1970)", type: "person", children: [
-          { name: "Ольга Петрова (1995)", type: "person" }
-        ]}
-      ]
-    },
-    {
-      name: "Мария Иванова (1955)",
-      type: "person",
-      children: [
-        { name: "Елена Иванова (1978)", type: "person" }
-      ]
-    }
-  ]
-}
-
-const getData = () => props.customData || defaultHierarchy
+const getData = () => props.customData || hierarchyData
 
 const findZoomGroup = () => {
   if (!containerRef.value) return null
@@ -92,7 +68,11 @@ const renderGraph = () => {
     .style('cursor', 'pointer')
     .on('click', (event, d) => {
       event.stopPropagation()
-      clickHandler.handlePersonClick(d.data)
+      clickHandler.handleSingleClick(d.data)
+    })
+    .on('dblclick', (event, d) => {
+      event.stopPropagation()
+      clickHandler.handleDoubleClick(d.data)
     })
 
   node.append('circle')

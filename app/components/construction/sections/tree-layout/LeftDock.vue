@@ -16,14 +16,31 @@
 
     <transition name="slide">
       <div v-if="activeSlideout" class="slideout-panel" :style="{ width: slideoutWidth + 'px' }">
+        <!-- Заголовок с кнопками управления (как в RightDrawer) -->
         <div class="slideout-header">
-          <span>{{ currentSlideoutLabel }}</span>
-          <button class="resize-handle" @mousedown="startResize">⋮</button>
+          <span class="panel-title">{{ currentSlideoutLabel }}</span>
+          <div class="panel-actions">
+            <button class="panel-action" @click="minimizePanel" title="Свернуть">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <button class="panel-action" @click="toggleMaximize" title="Развернуть">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M8 3H5C3.89543 3 3 3.89543 3 5V8M21 8V5C21 3.89543 20.1046 3 19 3H16M16 21H19C20.1046 21 21 20.1046 21 19V16M3 16V19C3 20.1046 3.89543 21 5 21H8"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <button class="panel-action" @click="closeSlideout" title="Закрыть">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
         </div>
+
         <div class="slideout-content">
-          <!-- Иерархия родственников для вкладки "Древо" -->
           <FamilyTreeMenu v-if="activeSlideout === 'tree'" />
-          <!-- Заглушки для других вкладок -->
           <div v-else-if="activeSlideout === 'search'" class="placeholder-content">
             <Icon name="ph:magnifying-glass" class="placeholder-icon" />
             <p>Поиск по древу</p>
@@ -33,6 +50,9 @@
             <p>Настройки</p>
           </div>
         </div>
+
+        <!-- Ручка ресайза (по всей высоте панели) -->
+        <div class="resize-handle" @mousedown="startResize"></div>
       </div>
     </transition>
   </div>
@@ -48,6 +68,8 @@ const dockItems = [
 const activeIcon = ref(null)
 const activeSlideout = ref(null)
 const slideoutWidth = useLocalStorage('left-slideout-width', 280)
+const isMaximized = ref(false)
+const normalWidth = ref(280)
 
 const currentSlideoutLabel = computed(() => {
   const item = dockItems.find(i => i.id === activeSlideout.value)
@@ -69,9 +91,33 @@ function closeSlideout() {
   activeIcon.value = null
 }
 
+function minimizePanel() {
+  closeSlideout()
+}
+
+function getMaxWidth() {
+  const mainEl = document.querySelector('.tree-main')
+  if (mainEl) {
+    return mainEl.clientWidth - 40 // ширина икон-бара
+  }
+  return 600
+}
+
+function toggleMaximize() {
+  if (isMaximized.value) {
+    slideoutWidth.value = normalWidth.value
+    isMaximized.value = false
+  } else {
+    normalWidth.value = slideoutWidth.value
+    slideoutWidth.value = getMaxWidth()
+    isMaximized.value = true
+  }
+}
+
 // Ресайз панели
 let startX, startWidth
 function startResize(e) {
+  e.preventDefault()
   startX = e.clientX
   startWidth = slideoutWidth.value
   window.addEventListener('mousemove', onResize)
@@ -79,8 +125,9 @@ function startResize(e) {
 }
 function onResize(e) {
   let newWidth = startWidth + (e.clientX - startX)
-  newWidth = Math.min(500, Math.max(180, newWidth))
+  newWidth = Math.min(600, Math.max(180, newWidth))
   slideoutWidth.value = newWidth
+  isMaximized.value = false
 }
 function stopResize() {
   window.removeEventListener('mousemove', onResize)
@@ -163,21 +210,41 @@ function stopResize() {
   border-right: 1px solid #bdc3c7;
 }
 
+/* Заголовок в стиле RightDrawer */
 .slideout-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0.75rem;
-  background: #d5dbdb;
-  font-weight: bold;
-  border-bottom: 1px solid #bdc3c7;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
 }
-
-.resize-handle {
-  cursor: ew-resize;
-  background: none;
+.panel-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+}
+.panel-actions {
+  display: flex;
+  gap: 4px;
+}
+.panel-action {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
   border: none;
-  font-size: 1.2rem;
+  border-radius: 4px;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.panel-action:hover {
+  background: #e2e8f0;
+  color: #0f172a;
 }
 
 .slideout-content {
@@ -202,6 +269,22 @@ function stopResize() {
   height: 48px;
   margin-bottom: 1rem;
   opacity: 0.5;
+}
+
+/* Ручка ресайза по всей высоте */
+.resize-handle {
+  position: absolute;
+  right: -3px;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  cursor: ew-resize;
+  background: transparent;
+  transition: background 0.15s;
+  z-index: 30;
+}
+.resize-handle:hover {
+  background: rgba(59, 130, 246, 0.3);
 }
 
 .slide-enter-active, .slide-leave-active {

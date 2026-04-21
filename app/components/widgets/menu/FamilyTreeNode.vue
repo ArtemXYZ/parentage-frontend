@@ -1,7 +1,7 @@
 <!-- components/widgets/menu/FamilyTreeNode.vue -->
 <template>
-  <div class="tree-node" :class="{ 'has-children': hasChildren }">
-    <!-- Вертикальные линии (как в PyCharm) -->
+  <div class="tree-node" :class="{ 'has-children': hasChildren, selected: isSelected }">
+    <!-- Вертикальные линии -->
     <div v-if="level > 0" class="tree-lines">
       <div
         v-for="i in level"
@@ -15,6 +15,7 @@
       class="node-content"
       :style="{ paddingLeft: level * 16 + 8 + 'px' }"
       @click="handleClick"
+      @dblclick="handleDoubleClick"
     >
       <Icon
         v-if="hasChildren"
@@ -23,10 +24,15 @@
         @click.stop="toggleExpand"
       />
       <Icon v-else name="ph:circle" class="leaf-icon" />
-      <Icon name="ph:user" class="node-icon" />
+      <Icon :name="genderIcon" class="node-icon" />
       <span class="node-label">{{ node.name }}</span>
-      <span v-if="node.birthYear" class="node-year">{{ node.birthYear }}</span>
+      <Icon :name="personTypeIcon" class="type-icon" />
+      <span v-if="node.birthYear" class="node-year">
+        <Icon name="ph:calendar" class="year-icon" />
+        {{ node.birthYear }}
+      </span>
     </div>
+
     <div v-if="expanded && hasChildren" class="node-children">
       <FamilyTreeNode
         v-for="child in node.children"
@@ -48,22 +54,44 @@ const props = defineProps({
 
 const tabsManager = inject('tabsManager')
 const openEditor = inject('openEditor')
+const selectedNodeId = inject('selectedNodeId')
+const setSelectedNode = inject('setSelectedNode')
+
 const clickHandler = new NodeClickHandler(tabsManager, openEditor)
 
 const expanded = ref(props.node.expanded || false)
 const hasChildren = computed(() => props.node.children?.length > 0)
+const isSelected = computed(() => selectedNodeId?.value === props.node.id)
+
+// Иконка пола
+const genderIcon = computed(() => {
+  return props.node.gender === 'female' ? 'ph:user-female' : 'ph:user'
+})
+
+// Иконка типа персоны по возрасту
+const personTypeIcon = computed(() => {
+  const year = props.node.birthYear
+  if (!year) return 'ph:question'
+  const age = new Date().getFullYear() - year
+  if (age < 18) return 'ph:baby'
+  if (age < 60) return 'ph:user-circle'
+  return 'ph:user-gear'
+})
 
 function toggleExpand() {
-  if (hasChildren.value) {
-    expanded.value = !expanded.value
-  }
+  if (hasChildren.value) expanded.value = !expanded.value
 }
 
 function handleClick() {
-  // Клик по узлу открывает редактор (как на графике)
-  if (props.node.type === 'person') {
-    clickHandler.handlePersonClick(props.node)
-  }
+  if (props.node.type !== 'person') return
+  setSelectedNode?.(props.node.id)
+  clickHandler.handleSingleClick(props.node)
+}
+
+function handleDoubleClick() {
+  if (props.node.type !== 'person') return
+  setSelectedNode?.(props.node.id)
+  clickHandler.handleDoubleClick(props.node)
 }
 </script>
 
@@ -73,7 +101,11 @@ function handleClick() {
   user-select: none;
 }
 
-/* Вертикальные линии */
+.tree-node.selected > .node-content {
+  background: #dbeafe;
+  border-left: 3px solid #3b82f6;
+}
+
 .tree-lines {
   position: absolute;
   top: 0;
@@ -91,7 +123,6 @@ function handleClick() {
   background: #cbd5e1;
 }
 
-/* Смещение линий в зависимости от уровня */
 .tree-line:nth-child(1) { left: 4px; }
 .tree-line:nth-child(2) { left: 20px; }
 .tree-line:nth-child(3) { left: 36px; }
@@ -100,7 +131,6 @@ function handleClick() {
 .tree-line:nth-child(6) { left: 84px; }
 .tree-line:nth-child(7) { left: 100px; }
 
-/* Горизонтальная линия перед иконкой */
 .node-content {
   display: flex;
   align-items: center;
@@ -111,6 +141,7 @@ function handleClick() {
   color: #2c3e50;
   position: relative;
 }
+
 .node-content::before {
   content: '';
   position: absolute;
@@ -121,6 +152,7 @@ function handleClick() {
   background: #cbd5e1;
   display: none;
 }
+
 .tree-node:not(:last-child) > .node-content::before {
   display: block;
 }
@@ -138,6 +170,7 @@ function handleClick() {
   flex-shrink: 0;
   cursor: pointer;
 }
+
 .leaf-icon {
   opacity: 0.5;
 }
@@ -145,8 +178,17 @@ function handleClick() {
 .node-icon {
   width: 16px;
   height: 16px;
-  margin-right: 8px;
+  margin-right: 6px;
   color: #3b82f6;
+  flex-shrink: 0;
+}
+
+.type-icon {
+  width: 14px;
+  height: 14px;
+  margin-left: 6px;
+  margin-right: 4px;
+  color: #94a3b8;
   flex-shrink: 0;
 }
 
@@ -158,9 +200,17 @@ function handleClick() {
 }
 
 .node-year {
-  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 4px;
   font-size: 11px;
-  color: #94a3b8;
+  color: #64748b;
+}
+
+.year-icon {
+  width: 12px;
+  height: 12px;
 }
 
 .node-children {

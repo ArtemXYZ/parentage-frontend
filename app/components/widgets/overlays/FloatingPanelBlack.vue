@@ -1,4 +1,4 @@
-<!-- components/widgets/overlays/FloatingPanel.vue -->
+<!-- components/widgets/overlays/FloatingPanelBlack.vue -->
 <template>
   <Teleport to="body">
     <div

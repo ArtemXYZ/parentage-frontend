@@ -5,15 +5,36 @@ export class NodeClickHandler {
     this.openEditor = openEditor
   }
 
-  handlePersonClick(personData) {
+  handleSingleClick(personData) {
     if (personData.type !== 'person') return
-    const personId = personData.name.replace(/\s+/g, '-').toLowerCase()
+    const tabId = `person-${personData.id}`
+    const existingTab = this.tabsManager.openTabs.value.find(t => t.id === tabId)
+    if (existingTab) {
+      this.tabsManager.setActiveTab(tabId)
+    } else {
+      this.tabsManager.replaceActiveTab({
+        id: tabId,
+        title: personData.name,
+        type: 'person',
+        data: personData
+      })
+    }
+    this.openEditor?.()
+  }
+
+  handleDoubleClick(personData) {
+    if (personData.type !== 'person') return
+    const uniqueId = `person-${personData.id}-${Date.now()}`
     this.tabsManager.addTab({
-      id: `person-${personId}`,
+      id: uniqueId,
       title: personData.name,
       type: 'person',
       data: personData
     })
-    this.openEditor()
+    this.openEditor?.()
+  }
+
+  handlePersonClick(personData) {
+    this.handleSingleClick(personData)
   }
 }

@@ -8,48 +8,8 @@
 </template>
 
 <script setup>
-// Моковые данные с добавленным type: 'person'
-const treeData = ref([
-  {
-    id: 'ivan',
-    name: 'Иван Петров',
-    type: 'person',
-    birthYear: 1950,
-    expanded: true,
-    children: [
-      {
-        id: 'alexey',
-        name: 'Алексей Иванов',
-        type: 'person',
-        birthYear: 1975,
-        expanded: false,
-        children: [
-          { id: 'dmitry', name: 'Дмитрий Алексеев', type: 'person', birthYear: 2000 },
-          { id: 'anna', name: 'Анна Алексеева', type: 'person', birthYear: 2002 }
-        ]
-      },
-      {
-        id: 'sergey',
-        name: 'Сергей Петров',
-        type: 'person',
-        birthYear: 1970,
-        children: [
-          { id: 'olga', name: 'Ольга Сергеева', type: 'person', birthYear: 1995 }
-        ]
-      }
-    ]
-  },
-  {
-    id: 'maria',
-    name: 'Мария Иванова',
-    type: 'person',
-    birthYear: 1955,
-    expanded: true,
-    children: [
-      { id: 'elena', name: 'Елена Иванова', type: 'person', birthYear: 1978 }
-    ]
-  }
-])
+import { familyTreeData } from '~/mocks/familyData'
+const treeData = ref(familyTreeData)
 </script>
 
 <style scoped>

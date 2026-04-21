@@ -3,7 +3,7 @@
 
   <TreeCanvas ref="canvas">
 
-    <ForceDirectedGraph />
+    <ForceGraph />
 
   </TreeCanvas>
 
