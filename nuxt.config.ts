@@ -28,7 +28,7 @@ export default defineNuxtConfig({
     { path: '~/components/construction/sections/default', pathPrefix: false },
     { path: '~/components/construction/sections/tree-layout', pathPrefix: false },
     // 
-    { path: '~/pages/tree', pathPrefix: false },
+    { path: '~/pages', pathPrefix: false },
     // 
     { path: '~/components/widgets/person-form', pathPrefix: false },
     { path: '~/components/widgets/menu', pathPrefix: false },
@@ -36,6 +36,7 @@ export default defineNuxtConfig({
     { path: '~/components/widgets/backgrounds/trees', pathPrefix: false },
     { path: '~/components/widgets/backgrounds/live', pathPrefix: false },
     { path: '~/components/widgets/triggers', pathPrefix: false },
+    { path: '~/components/widgets/selectors', pathPrefix: false },
     { path: '~/components/widgets/overlays', pathPrefix: false }
   ]
 })

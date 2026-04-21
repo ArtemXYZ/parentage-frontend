@@ -8,6 +8,19 @@ import * as d3 from 'd3'
 import { NodeClickHandler } from '~/utils/NodeClickHandler'
 import { hierarchyData } from '~/mocks/familyData'
 
+// Внутри script setup
+const cleanup = () => {
+  const zoomGroup = findZoomGroup()
+  if (zoomGroup) {
+    d3.select(zoomGroup).selectAll('.dendrogram-content').remove()
+  }
+}
+
+onUnmounted(() => {
+  cleanup()
+})
+
+
 const props = defineProps({
   customData: { type: Object, default: null },
   radius: { type: Number, default: 450 },

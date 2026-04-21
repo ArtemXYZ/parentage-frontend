@@ -1,3 +1,4 @@
+<!-- components/construction/NavBar.vue -->
 <template>
   <div class="navbar-wrapper">
     <nav class="header-navigation">
@@ -5,7 +6,11 @@
         <div v-for="menu in menus" :key="menu.label" class="menu-item" @click="toggleMenu(menu)">
           {{ menu.label }}
           <div v-if="menu.open" class="dropdown">
-            <div v-for="item in menu.items" :key="item.label" @click="item.action">
+            <div
+              v-for="item in menu.items"
+              :key="item.label"
+              @click="item.action"
+            >
               {{ item.label }}
             </div>
           </div>
@@ -16,20 +21,65 @@
 </template>
 
 <script setup>
-const menus = ref([
-  { label: 'Файл', open: false, items: [
-    { label: 'Импорт GEDCOM', action: () => console.log('импорт') },
-    { label: 'Экспорт', action: () => console.log('экспорт') },
-    { label: 'Создать древо', action: () => console.log('новое древо') }
-  ]},
-  { label: 'Вид', open: false, items: [
-    { label: 'Сбросить масштаб', action: () => console.log('сброс') },
-    { label: 'Показать сетку', action: () => console.log('сетка') }
-  ]},
-  { label: 'Инструменты', open: false, items: [
-    { label: 'Настройки', action: () => console.log('настройки') }
-  ]}
+const router = useRouter()
+
+// Получаем все роуты, фильтруем динамические и 404
+const routes = computed(() => {
+  return router.getRoutes()
+    .filter(route => 
+      route.name && 
+      !route.path.includes(':') && 
+      route.path !== '/' &&
+      !route.path.includes('404')
+    )
+    .sort((a, b) => (a.meta?.order || 100) - (b.meta?.order || 100))
+})
+
+const navigationItems = computed(() => [
+  { label: 'Главная', action: () => router.push('/') },
+  ...routes.value.map(r => ({
+    label: r.meta?.title || r.name,
+    action: () => router.push(r.path)
+  }))
 ])
+
+const menus = ref([
+  {
+    label: 'Файл',
+    open: false,
+    items: [
+      { label: 'Импорт GEDCOM', action: () => console.log('импорт') },
+      { label: 'Экспорт', action: () => console.log('экспорт') },
+      { label: 'Создать древо', action: () => console.log('новое древо') }
+    ]
+  },
+  {
+    label: 'Вид',
+    open: false,
+    items: [
+      { label: 'Сбросить масштаб', action: () => console.log('сброс') },
+      { label: 'Показать сетку', action: () => console.log('сетка') }
+    ]
+  },
+  {
+    label: 'Инструменты',
+    open: false,
+    items: [
+      { label: 'Настройки', action: () => console.log('настройки') }
+    ]
+  },
+  {
+    label: 'Навигация',
+    open: false,
+    items: navigationItems.value
+  }
+])
+
+// Обновляем навигационные пункты при изменении роутов (например, после сборки)
+watch(navigationItems, (newItems) => {
+  const navMenu = menus.value.find(m => m.label === 'Навигация')
+  if (navMenu) navMenu.items = newItems
+}, { immediate: true })
 
 function toggleMenu(menu) {
   menus.value.forEach(m => { if (m !== menu) m.open = false })
@@ -38,6 +88,7 @@ function toggleMenu(menu) {
 </script>
 
 <style scoped>
+/* стили без изменений */
 .navbar-wrapper {
   display: flex;
   flex-direction: column;

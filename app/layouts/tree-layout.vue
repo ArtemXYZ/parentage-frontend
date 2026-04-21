@@ -32,6 +32,10 @@ import PanelTrigger from '~/components/widgets/triggers/PanelTrigger.vue'
 import FloatingPanelBlack from '~/components/widgets/overlays/FloatingPanelBlack.vue'
 import { useTabsManager } from '~/composables/useTabsManager'
 
+const currentGraphType = ref('dendrogram')
+provide('graphType', readonly(currentGraphType))
+provide('setGraphType', (type) => { currentGraphType.value = type })
+
 const mainRef = ref(null)
 const isEditorOpen = ref(false)
 
