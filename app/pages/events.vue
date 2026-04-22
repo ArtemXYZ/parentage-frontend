@@ -1,11 +1,13 @@
+<!-- pages/events.vue -->
 <script setup>
 
 const PageName = 'События'
 
 definePageMeta({
-  layout: 'default',  
-  title: PageName,  
-  order: 6       
+  layout: 'tree-layout',
+  title: PageName,
+  icon: 'ph:calendar',
+  order: 5
 })
 </script>
 

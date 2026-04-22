@@ -1,11 +1,13 @@
+<!-- pages/docs.vue -->
 <script setup>
 
 const PageName = 'Документы'
 
 definePageMeta({
-  layout: 'default',  
-  title: PageName,  
-  order: 4        
+  layout: 'tree-layout',
+  title: PageName,
+  icon: 'ph:files',
+  order: 4
 })
 </script>
 

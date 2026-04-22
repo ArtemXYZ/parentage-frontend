@@ -1,11 +1,13 @@
+<!-- pages/places.vue -->
 <script setup>
 
 const PageName = 'Места'
 
 definePageMeta({
-  layout: 'default',  
-  title: PageName,  
-  order: 4        
+  layout: 'tree-layout',
+  title: PageName,
+  icon: 'ph:globe',
+  order: 6
 })
 </script>
 

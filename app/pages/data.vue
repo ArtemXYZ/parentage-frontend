@@ -1,11 +1,13 @@
+<!-- pages/data.vue -->
 <script setup>
 
 const PageName = 'Данные'
 
 definePageMeta({
-  layout: 'default',  
-  title: PageName,  
-  order: 4        
+  layout: 'tree-layout',
+  title: PageName,
+  icon: 'ph:database',
+  order: 3
 })
 </script>
 

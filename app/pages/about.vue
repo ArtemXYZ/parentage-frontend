@@ -1,12 +1,13 @@
+<!-- pages/about.vue -->
 <script setup>
 
 const PageName = 'О нас'
 
-
 definePageMeta({
-  layout: 'default',  
-  title: 'О нас',  // Кастомное название для меню
-  order: 2         // Опционально: порядок в меню
+  layout: 'tree-layout',
+  title: PageName,
+  icon: 'ph:info',
+  order: 2
 })
 </script>
 
