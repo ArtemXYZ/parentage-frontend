@@ -2,10 +2,11 @@
 <template>
   <div class="left-dock">
     <div class="icon-bar">
-      <!-- Верхняя секция (функциональные) -->
+      <!-- Верхняя секция: Древо, Поиск + динамические страницы -->
       <div class="icon-section top">
+        <!-- Фиксированные Древо и Поиск -->
         <div
-          v-for="item in fixedTopItems"
+          v-for="item in topItems"
           :key="item.id"
           class="icon-item"
           :class="{ active: activeIcon === item.id }"
@@ -15,10 +16,10 @@
           <span class="tooltip">{{ item.label }}</span>
         </div>
 
-        <!-- Разделитель перед страницами -->
+        <!-- Разделитель перед страницами (если они есть) -->
         <div v-if="pageItems.length" class="icon-bar-divider"></div>
 
-        <!-- Страницы из роутера -->
+        <!-- Страницы из роутера (layout: 'tree-layout', кроме /tree) -->
         <div
           v-for="page in pageItems"
           :key="page.id"
@@ -34,7 +35,7 @@
       <!-- Разделитель между верхней и нижней частью -->
       <div class="icon-bar-divider"></div>
 
-      <!-- Нижняя секция (системные) -->
+      <!-- Нижняя секция: Настройки, Аккаунт -->
       <div class="icon-section bottom">
         <div
           v-for="item in bottomItems"
@@ -95,14 +96,17 @@
         </div>
 
         <div class="slideout-content">
+          <!-- Древо: дерево родственников + выбор типа графа -->
           <template v-if="activeSlideout === 'tree'">
             <FamilyTreeMenu />
             <GraphTypeSelector @change="handleGraphTypeChange" />
           </template>
+          <!-- Поиск: заглушка -->
           <div v-else-if="activeSlideout === 'search'" class="placeholder-content">
             <Icon name="ph:magnifying-glass" class="placeholder-icon" />
             <p>Поиск по древу</p>
           </div>
+          <!-- Остальные страницы: заглушка с иконкой -->
           <div v-else class="placeholder-content">
             <Icon :name="currentPageIcon" class="placeholder-icon" />
             <p>{{ currentSlideoutLabel }}</p>
@@ -121,17 +125,19 @@ import GraphTypeSelector from '~/components/widgets/selectors/GraphTypeSelector.
 
 const router = useRouter()
 
-const fixedTopItems = [
+// Фиксированные верхние элементы
+const topItems = [
   { id: 'tree', iconName: 'ph:git-branch', label: 'Древо' },
   { id: 'search', iconName: 'ph:magnifying-glass', label: 'Поиск' },
 ]
 
+// Нижние элементы
 const bottomItems = [
   { id: 'settings', iconName: 'ph:gear', label: 'Настройки' },
   { id: 'account', iconName: 'ph:user-circle', label: 'Аккаунт' },
 ]
 
-// Страницы с layout: 'tree-layout', исключая /tree
+// Динамические страницы с layout: 'tree-layout', кроме /tree
 const pageItems = computed(() => {
   return router.getRoutes()
     .filter(route =>
@@ -148,8 +154,9 @@ const pageItems = computed(() => {
     }))
 })
 
+// Все элементы для поиска заголовка и иконки
 const allItems = computed(() => [
-  ...fixedTopItems,
+  ...topItems,
   ...pageItems.value,
   ...bottomItems
 ])
@@ -182,6 +189,10 @@ function handleGraphTypeChange(type) {
 }
 
 function toggleSlideout(id) {
+  // Разрешаем открытие для верхних фиксированных и динамических страниц
+  const allowedIds = [...topItems.map(i => i.id), ...pageItems.value.map(i => i.id)]
+  if (!allowedIds.includes(id)) return
+
   if (activeSlideout.value === id) {
     activeSlideout.value = null
     activeIcon.value = null
@@ -217,13 +228,8 @@ function toggleBottomMenu(id, event) {
   setTimeout(() => window.addEventListener('click', () => contextMenu.value.visible = false, { once: true }), 10)
 }
 
-function closeSlideout() {
-  activeSlideout.value = null
-  activeIcon.value = null
-}
-function minimizePanel() {
-  closeSlideout()
-}
+function closeSlideout() { activeSlideout.value = null; activeIcon.value = null }
+function minimizePanel() { closeSlideout() }
 
 function getMaxWidth() {
   const mainEl = document.querySelector('.tree-main')
@@ -262,7 +268,7 @@ function stopResize() {
 </script>
 
 <style scoped>
-/* все стили без изменений, как в предыдущей версии */
+/* все стили точно как в рабочей версии */
 .left-dock {
   position: relative;
   z-index: 20;
@@ -384,7 +390,7 @@ function stopResize() {
 }
 .panel-title {
   font-size: 13px;
-  font-weight: 500;
+  font-weight:500;
   color: #1e293b;
 }
 .panel-actions {
