@@ -2,37 +2,46 @@
 <template>
   <div class="left-dock">
     <div class="icon-bar">
-      <!-- Функциональная кнопка (стрелочка) -->
-      <div class="icon-section top">
+      <!-- Иконка "Древо" -->
+      <div
+        class="icon-item"
+        :class="{ active: activeSlideout === 'tree' }"
+        @click="toggleSlideout('tree')"
+      >
+        <Icon name="ph:git-branch" class="dock-icon" />
+        <span class="tooltip">Древо</span>
+      </div>
+
+      <!-- Иконка "Виды" с раскрытием вниз -->
+      <div class="graph-type-switcher" ref="switcherRef">
         <div
           class="icon-item"
-          :class="{ active: activeSlideout === 'tree' }"
-          @click="toggleSlideout('tree')"
+          :class="{ active: menuOpen }"
+          @click="toggleMenu"
         >
-          <Icon name="ph:git-branch" class="dock-icon" />
-          <span class="tooltip">Древо</span>
+          <Icon name="ph:tree-structure" class="dock-icon" />
+          <span class="tooltip">Виды</span>
+        </div>
+
+        <!-- Меню выбора вида (раскрывается вниз, с иконками) -->
+        <div v-if="menuOpen" class="type-menu">
+          <div
+            v-for="(type, index) in graphTypes"
+            :key="type.id"
+            class="type-item"
+            :class="{ 'with-divider': index < graphTypes.length - 1 }"
+            @click="selectType(type.id)"
+          >
+            <Icon :name="type.icon" class="type-icon" />
+            <span class="tooltip-right">{{ type.label }}</span>
+          </div>
         </div>
       </div>
 
-      <!-- Разделитель -->
-      <div class="icon-bar-divider"></div>
-
-      <!-- Навигационные иконки страниц -->
-      <div class="icon-section nav">
-        <div
-          v-for="page in pageItems"
-          :key="page.id"
-          class="icon-item"
-          :class="{ active: isCurrentPage(page.path) }"
-          @click="navigateTo(page.path)"
-        >
-          <Icon :name="page.iconName" class="dock-icon" />
-          <span class="tooltip">{{ page.label }}</span>
-        </div>
-      </div>
+      <!-- Здесь могут быть другие иконки (будут сдвинуты вниз при раскрытии меню) -->
     </div>
 
-    <!-- Выдвижная панель -->
+    <!-- Выдвижная панель для Древа -->
     <transition name="slide">
       <div v-if="activeSlideout === 'tree'" class="slideout-panel" :style="{ width: slideoutWidth + 'px' }">
         <div class="slideout-header">
@@ -56,9 +65,11 @@
             </button>
           </div>
         </div>
+
         <div class="slideout-content">
           <FamilyTreeMenu />
         </div>
+
         <div class="resize-handle" @mousedown="startResize"></div>
       </div>
     </transition>
@@ -66,40 +77,35 @@
 </template>
 
 <script setup>
-const router = useRouter()
-const route = useRoute()
-
-const pageItems = computed(() => {
-  return router.getRoutes()
-    .filter(r => r.meta?.layout === 'tree-layout' && r.name)
-    .sort((a, b) => (a.meta?.order || 100) - (b.meta?.order || 100))
-    .map(r => ({
-      id: r.path,
-      label: r.meta?.title || r.name,
-      iconName: r.meta?.icon || 'ph:circle',
-      path: r.path
-    }))
-})
-
-const isCurrentPage = (path) => route.path === path
-const navigateTo = (path) => router.push(path)
+const graphTypes = [
+  { id: 'dendrogram', label: 'Дендрограмма', icon: 'ph:tree-structure' },
+  { id: 'radial', label: 'Радиальное', icon: 'ph:circle-half' },
+  { id: 'force', label: 'Граф сил', icon: 'ph:graph' }
+]
 
 const activeSlideout = ref(null)
 const slideoutWidth = useLocalStorage('left-slideout-width', 280)
 const isMaximized = ref(false)
 const normalWidth = ref(280)
 
+const menuOpen = ref(false)
+const switcherRef = ref(null)
+const setGraphType = inject('setGraphType')
+
 function toggleSlideout(id) {
   activeSlideout.value = activeSlideout.value === id ? null : id
 }
-function closeSlideout() { activeSlideout.value = null }
-function minimizePanel() { closeSlideout() }
+function closeSlideout() {
+  activeSlideout.value = null
+}
+function minimizePanel() {
+  closeSlideout()
+}
 
 function getMaxWidth() {
   const mainEl = document.querySelector('.tree-main')
   return mainEl ? mainEl.clientWidth - 40 : 600
 }
-
 function toggleMaximize() {
   if (isMaximized.value) {
     slideoutWidth.value = normalWidth.value
@@ -129,6 +135,25 @@ function stopResize() {
   window.removeEventListener('mousemove', onResize)
   window.removeEventListener('mouseup', stopResize)
 }
+
+// Меню "Виды"
+function toggleMenu() {
+  menuOpen.value = !menuOpen.value
+}
+function closeMenu() {
+  menuOpen.value = false
+}
+function selectType(type) {
+  setGraphType?.(type)
+  closeMenu()
+}
+function handleClickOutside(event) {
+  if (switcherRef.value && !switcherRef.value.contains(event.target)) {
+    closeMenu()
+  }
+}
+onMounted(() => document.addEventListener('click', handleClickOutside))
+onUnmounted(() => document.removeEventListener('click', handleClickOutside))
 </script>
 
 <style scoped>
@@ -147,13 +172,6 @@ function stopResize() {
   padding-top: 1rem;
 }
 
-.icon-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
 .icon-item {
   position: relative;
   width: 35px;
@@ -167,12 +185,10 @@ function stopResize() {
   transition: background 0.2s;
   color: #bdc3c7;
 }
-
 .icon-item:hover {
   background: #2c3e50;
   color: #ffffff;
 }
-
 .icon-item.active {
   background: #1abc9c;
   color: #ffffff;
@@ -195,19 +211,78 @@ function stopResize() {
   pointer-events: none;
   transition: opacity 0.2s;
 }
-
 .icon-item:hover .tooltip {
   opacity: 1;
 }
 
-.icon-bar-divider {
-  width: 30px;
-  height: 1px;
-  background: #3b4a5a;
-  margin: 12px 0;
+/* Меню видов (раскрывается вниз) */
+.graph-type-switcher {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* выдвижная панель */
+.type-menu {
+  width: 100%;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 4px 0 8px 0;
+}
+
+.type-item {
+  position: relative;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: background 0.2s;
+  color: #bdc3c7;
+}
+.type-item:hover {
+  background: #2c3e50;
+  color: #ffffff;
+}
+.type-item.with-divider::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 10%;
+  width: 80%;
+  height: 1px;
+  background: #3b4a5a;
+}
+
+.type-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.tooltip-right {
+  position: absolute;
+  left: 60px;
+  background: #34495e;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 30;
+}
+.type-item:hover .tooltip-right {
+  opacity: 1;
+}
+
+/* Выдвижная панель */
 .slideout-panel {
   position: absolute;
   top: 0;
@@ -255,7 +330,6 @@ function stopResize() {
   cursor: pointer;
   transition: all 0.15s;
 }
-
 .panel-action:hover {
   background: #e2e8f0;
   color: #0f172a;
@@ -278,7 +352,6 @@ function stopResize() {
   transition: background 0.15s;
   z-index: 30;
 }
-
 .resize-handle:hover {
   background: rgba(59, 130, 246, 0.3);
 }

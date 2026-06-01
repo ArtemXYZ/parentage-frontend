@@ -2,93 +2,29 @@
 <template>
   <div class="navbar-wrapper">
     <nav class="header-navigation">
-      <div class="menu-bar">
-        <div v-for="menu in menus" :key="menu.label" class="menu-item" @click="toggleMenu(menu)">
-          {{ menu.label }}
-          <div v-if="menu.open" class="dropdown">
-            <div
-              v-for="item in menu.items"
-              :key="item.label"
-              @click="item.action"
-            >
-              {{ item.label }}
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- <div class="left-group">
+        <span class="app-logo">Parentage</span>
+      </div> -->
+
+      <!-- <div class="center-group">
+        <Breadcrumbs />
+      </div> -->
+
+      <!-- <div class="right-group">
+        <AppSearch />
+        <div class="divider"></div>
+        <ThemeSwitcher />
+        <div class="divider"></div>
+        <UserMenu />
+      </div> -->
     </nav>
   </div>
 </template>
 
 <script setup>
-const router = useRouter()
-
-// Получаем все роуты, фильтруем динамические и 404
-const routes = computed(() => {
-  return router.getRoutes()
-    .filter(route => 
-      route.name && 
-      !route.path.includes(':') && 
-      route.path !== '/' &&
-      !route.path.includes('404')
-    )
-    .sort((a, b) => (a.meta?.order || 100) - (b.meta?.order || 100))
-})
-
-const navigationItems = computed(() => [
-  { label: 'Главная', action: () => router.push('/') },
-  ...routes.value.map(r => ({
-    label: r.meta?.title || r.name,
-    action: () => router.push(r.path)
-  }))
-])
-
-const menus = ref([
-  {
-    label: 'Файл',
-    open: false,
-    items: [
-      { label: 'Импорт GEDCOM', action: () => console.log('импорт') },
-      { label: 'Экспорт', action: () => console.log('экспорт') },
-      { label: 'Создать древо', action: () => console.log('новое древо') }
-    ]
-  },
-  {
-    label: 'Вид',
-    open: false,
-    items: [
-      { label: 'Сбросить масштаб', action: () => console.log('сброс') },
-      { label: 'Показать сетку', action: () => console.log('сетка') }
-    ]
-  },
-  {
-    label: 'Инструменты',
-    open: false,
-    items: [
-      { label: 'Настройки', action: () => console.log('настройки') }
-    ]
-  },
-  {
-    label: 'Навигация',
-    open: false,
-    items: navigationItems.value
-  }
-])
-
-// Обновляем навигационные пункты при изменении роутов (например, после сборки)
-watch(navigationItems, (newItems) => {
-  const navMenu = menus.value.find(m => m.label === 'Навигация')
-  if (navMenu) navMenu.items = newItems
-}, { immediate: true })
-
-function toggleMenu(menu) {
-  menus.value.forEach(m => { if (m !== menu) m.open = false })
-  menu.open = !menu.open
-}
 </script>
 
 <style scoped>
-/* стили без изменений */
 .navbar-wrapper {
   display: flex;
   flex-direction: column;
@@ -96,40 +32,40 @@ function toggleMenu(menu) {
 }
 .header-navigation {
   display: flex;
-  flex-direction: row;
-  box-sizing: border-box;
-  width: 100%;
-  height: 35px;
-  padding: 3px 0px;
-  border-bottom: 1px solid #2c3e50;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 40px;
+  padding: 0 16px;
+  border-bottom: 1px solid #2c3e50;
   background: #1e2a36;
 }
-.menu-bar { display: flex; gap: 1rem; }
-.menu-item {
-  position: relative;
-  cursor: pointer;
-  padding: 0.25rem 0.5rem;
+.left-group {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+.app-logo {
+  font-size: 16px;
+  font-weight: 600;
   color: #ecf0f1;
-  font-size: 13px;
+  letter-spacing: -0.5px;
 }
-.menu-item:hover { background: #2c3e50; border-radius: 4px; }
-.dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #34495e;
-  border-radius: 4px;
-  min-width: 180px;
-  z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+.center-group {
+  flex: 2;
+  display: flex;
+  justify-content: center;
 }
-.dropdown div {
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  color: #ecf0f1;
-  font-size: 13px;
+.right-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: flex-end;
 }
-.dropdown div:hover { background: #3b5c7a; }
+.divider {
+  width: 1px;
+  height: 20px;
+  background: #3b4a5a;
+}
 </style>

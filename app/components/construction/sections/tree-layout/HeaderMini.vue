@@ -20,6 +20,13 @@
             <button class="btn btn-outline-success" type="submit">Search</button>
 
       </form> -->
+        <!-- ----- -->
+        <AppSearch />
+        <div class="divider"></div>
+        <ThemeSwitcher />
+        <div class="divider"></div>
+        <UserMenu />
+        <!-- ------ -->
     </div>
 
   </header>
@@ -76,12 +83,15 @@
   /* Включаем отступы внутрь элемента */
   box-sizing: border-box;
 
+  gap: 20px;
+  align-items: center;
 
   align-items: center; /* Центрирование содержимого по вертикали */
   justify-content: center; /* Центрирование содержимого по горизонтали */
 
   /* background-image: linear-gradient(180deg, #fff, #ddd 40%, #ccc); */
-  background-image: url('~/assets/images/logo.jpg');
+
+  /* background-image: url('~/assets/images/logo.jpg'); */
   
   
 
@@ -143,5 +153,11 @@
 
 
   /* --ui-header-height: calc(var(--spacing) * 16);  Вычисляемая высота шапки - взято из сайта документации накст. */ 
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background: #3b4a5a;
+}
 
 </style>

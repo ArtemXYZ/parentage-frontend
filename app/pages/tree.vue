@@ -12,7 +12,10 @@ import ForceGraph from '~/components/widgets/trees/ForceGraph.vue'
 
 definePageMeta({
   layout: 'tree-layout',
-  title: 'Древо'
+  title: 'Древо',
+  icon: 'ph:git-branch',
+  order: 1,
+  toolsComponent: 'TreePageTools' // имя компонента
 })
 
 const graphType = inject('graphType')

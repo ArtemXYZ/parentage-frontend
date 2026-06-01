@@ -1,18 +1,34 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
-  devtools: { enabled: true },
+  // devtools: { enabled: true },
+  ssr: false, // <-- ЭТО ВЫКЛЮЧАЕТ SSR в режиме разработки
+
+
+
   modules: [
     '@nuxt/ui',
     '@nuxt/image',
     '@pinia/nuxt',
     '@element-plus/nuxt',
-
+    
   ],
+  fonts: {
+    // 1. Явно отключаем провайдера fontsource
+    providers: {
+      fontsource: false
+    },
+  },
+
   css: [
     '~/assets/css/global.css'
   ],
-  
+
+
+
+
+
+
   app: {
     head: {
       title: 'Parentage', // default fallback title
@@ -30,6 +46,14 @@ export default defineNuxtConfig({
     // 
     { path: '~/pages', pathPrefix: false },
     // 
+    { path: '~/composables', pathPrefix: false },
+
+    // 
+    { path: '~/components/widgets/overlays', pathPrefix: false },
+    { path: '~/components/widgets/search', pathPrefix: false },
+    { path: '~/components/widgets/theme', pathPrefix: false },
+    { path: '~/components/widgets/user', pathPrefix: false },
+    { path: '~/components/widgets/navigation', pathPrefix: false },
     { path: '~/components/widgets/person-form', pathPrefix: false },
     { path: '~/components/widgets/menu', pathPrefix: false },
     { path: '~/components/widgets/trees', pathPrefix: false },
@@ -51,4 +75,4 @@ export default defineNuxtConfig({
   //   '/index': { DefaultLayout: 'default' },
   //   // Set layout for multiple routes
   //   // '/dashboard/**': { appLayout: 'dashboard' },
-  // },
+  // },                                   
