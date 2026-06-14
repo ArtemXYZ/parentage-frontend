@@ -1,17 +1,40 @@
 <!-- layouts/tree-layout.vue -->
 <template>
+
   <div class="tree-layout">
+    
+    <!-- 1 -->
     <HeaderMini />
+
+    <!-- 2 -->
     <NavBar />
+
+    <!-- 3 центральный контейнер под контент: дерево. Боковые панели по верх парящие.-->
     <main ref="mainRef" class="tree-main">
+      
+      <!-- 3.1. -->
       <LeftDock />
+
+      
+      <!-- 3.2. Контейнер под канву для деревьев -->
       <div class="canvas-container">
+        
+        <!-- 3.2.1. Сюда падает -->
         <slot />
       </div>
+      
+
+      
+      <!-- 3.3. Правая панель парящая (редактор)-->
       <PanelTrigger @click="openEditorPanel" />
+
     </main>
+
+    <!-- 4 Подвал миниатюрный -->
     <FooterMini />
 
+
+    <!-- Как убрать это? Переделать \ инкапсулировать \ выынести - неструктурное расположение -->
     <FloatingPanelBlack
       v-model:is-open="isEditorOpen"
       title="Редактор"
@@ -19,13 +42,18 @@
       :default-width="320"
       storage-key="right-editor-width"
     >
+
+    
+      <!-- РАзобраться что это?  -->
       <slot name="editor-content">
         <div class="default-content">
           <p>Выберите персону для редактирования</p>
         </div>
       </slot>
     </FloatingPanelBlack>
+
   </div>
+
 </template>
 
 <script setup>

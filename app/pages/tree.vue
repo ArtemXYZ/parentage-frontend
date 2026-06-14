@@ -1,11 +1,8 @@
 <!-- pages/tree.vue -->
-<template>
-  <TreeCanvas ref="canvasRef">
-    <component :is="graphComponent" />
-  </TreeCanvas>
-</template>
 
 <script setup>
+
+// Удалить (сначала добавить в конфиг)!
 import DendrogramGraph from '~/components/widgets/trees/DendrogramGraph.vue'
 import RadialGraph from '~/components/widgets/trees/RadialGraph.vue'
 import ForceGraph from '~/components/widgets/trees/ForceGraph.vue'
@@ -18,6 +15,7 @@ definePageMeta({
   toolsComponent: 'TreePageTools' // имя компонента
 })
 
+// Попробовать упростить. муть какая то!
 const graphType = inject('graphType')
 const graphComponent = computed(() => {
   switch (graphType?.value) {
@@ -27,3 +25,13 @@ const graphComponent = computed(() => {
   }
 })
 </script>
+
+
+<template>
+
+  <TreeCanvas ref="canvasRef">
+    <component :is="graphComponent" />
+  </TreeCanvas>
+
+</template>
+

@@ -1,5 +1,9 @@
 <!-- components/construction/sections/LeftDock.vue -->
+ 
+<!-- Разделить по ответственности  раздробить функционал! -->
 <template>
+
+  
   <div class="left-dock">
     <div class="icon-bar">
       <!-- Функциональная кнопка (стрелочка) -->
