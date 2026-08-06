@@ -41,7 +41,7 @@ export default defineNuxtConfig({
   
   components: [
     { path: '~/components/construction/sections', pathPrefix: false },
-    { path: '~/components/construction/sections/default', pathPrefix: false },
+    // { path: '~/components/construction/sections/default', pathPrefix: false },
     { path: '~/components/construction/sections/tree-layout', pathPrefix: false },
     // 
     { path: '~/pages', pathPrefix: false },
@@ -61,7 +61,10 @@ export default defineNuxtConfig({
     { path: '~/components/widgets/backgrounds/live', pathPrefix: false },
     { path: '~/components/widgets/triggers', pathPrefix: false },
     { path: '~/components/widgets/selectors', pathPrefix: false },
-    { path: '~/components/widgets/overlays', pathPrefix: false }
+    { path: '~/components/widgets/overlays', pathPrefix: false },
+
+      { path: '~/components/widgets/containers', pathPrefix: false }
+
   ]
 })
 
